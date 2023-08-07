@@ -65,6 +65,12 @@ find_best_conf.py target_workload use_tuning_order
 ```
 for training each workload.
 
+for example,
+
+```
+find_best_conf.py YCSB True
+```
+
 Then, use 
 
 ```
