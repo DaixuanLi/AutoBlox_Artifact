@@ -57,5 +57,30 @@ Then, can reproduce the Figure 3,4 in the paper.
 
 ### Training
 
+To train for a given workload type and with/without tuning order, please use
+
+```
+cd src
+find_best_conf.py target_workload use_tuning_order
+```
+for training each workload.
+
+Then, use 
+
+```
+batch_evaluation.py TEST_TRAINING
+```
+
+to test the optimized configuration proposed by AutoBlox.
+
+Finally, use 
+
+```
+profile_training.sh
+```
+
+to plot the training procedure figure.
+
+The training for each workload may take less than 12 hours, it is highly recommended to run each target workload separately.
 
 
