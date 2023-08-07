@@ -1,0 +1,13 @@
+traces/*
+src/__pycache__
+src/dram_trace/*
+src/.cmt
+src/*.log
+log/*
+xdb/*/dram_trace
+xdb/*/warmup
+test_traces/*
+training_traces/*
+xdb/*
+cloudlab_server_setup_instructions
+server_list
