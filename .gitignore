@@ -9,5 +9,4 @@ xdb/*/warmup
 test_traces/*
 training_traces/*
 xdb/*
-cloudlab_server_setup_instructions
 server_list

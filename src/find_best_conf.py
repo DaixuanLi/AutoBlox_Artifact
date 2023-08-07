@@ -18,6 +18,15 @@ from evaluate_target_conf import generate_config_workload, save_to_xdb, get_perf
 
 # database metadata 
 # TODO configure this in command line
+import sys
+
+print ('Number of arguments:', len(sys.argv), 'arguments.')
+print ('Argument List:', str(sys.argv))
+
+if len(sys.argv) != 3:
+    print("Usage: find_best_conf.py target_name use_order")
+    exit()
+
 xdb_name = "../xdb/nvme_mlc/"
 
 traces_directory = "../training_traces/"
@@ -26,7 +35,7 @@ explored_configuration_file = "confs.json"
 xdbTable_name = "xdbTable.json"
 parallel_lock_file_name = "lock"
 # workload informations
-target_workload = "TPCC"
+target_workload = sys.argv[2]
 use_order = True
 
 

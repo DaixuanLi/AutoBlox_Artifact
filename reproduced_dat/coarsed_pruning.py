@@ -10,11 +10,11 @@ labelmapping = {"CS":"CloudStorage",
                 "MR":"BatchDataAnalytics",
                 "DB":"DataBase",
                 "KV":"KVStore",
-                # "LM":"LiveMaps",
+                "LM":"LiveMaps",
                 "RC":"Recommendations",
                 "WS":"WebSearch"}
 
-workloads = ["MR", "CS", "KV",  "DB", "WS", "RC"]
+workloads = [ "CS","RC", "LM", "KV","DB","MR","WS"]
 
 import matplotlib as PlotLib
 import sys
@@ -24,7 +24,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 # colors = ['limegreen', '#ff796c', 'royalblue', '#6495ED', '#96f97b', '#ffa07a' ,'#fac205', '#95d0fc',]
 # hatches = ['', '\\\\\\', '////', '\\\\', '', '|||', '---', '+++', 'xxx', 'ooo', '\\\\\\', 'ooo', '***']
-mkrs = ['.','o','v','^','<','>']
+mkrs = ['o','v','^','<','>']
 fmts = ["r","g","b","c","m","y","k"]
 key2mkrs = {}
 key2fmts = {}
@@ -47,7 +47,7 @@ hatches = ['', '\\\\\\', '////', '\\\\', '', '|||', '---', '+++', 'xxx', 'ooo', 
 
 
 figname = "coarsed_pruning.pdf"
-Figure = PyPlot.figure(figsize=(12,2.5))
+Figure = PyPlot.figure(figsize=(12,2.4))
 PlotLib.rcParams.update({'font.family': 'serif'})
 PDF = PdfPages(figname)
 figcount = 1
@@ -69,7 +69,7 @@ for key in workloads:
         # Whether it is in the critical session
         # if datadict[key1][4] - datadict[key1][0] < 1e-2:
         #     continue
-        if key1 not in labeled and key=="MR":
+        if key1 not in labeled and key=="CS":
             labeled.append(key1)
             plt.plot(x, datadict[key1],key2mkrs[key1]+"-"+key2fmts[key1], label=key1)
         else:
@@ -80,7 +80,7 @@ for key in workloads:
                 plt.plot(x, datadict[key1],key2mkrs[key1]+"-"+key2fmts[key1])
         count += 1
     # plt.set_title(key, fontsize=8)
-    if key == "MR":
+    if key == "CS":
         handles, labels = plt.get_legend_handles_labels()
         lg=plt.legend(prop={'size':8}, ncol=4,  borderaxespad=0., edgecolor='black', bbox_to_anchor=(8.9, 2.0))
     # lg.draw_frame(False)
@@ -90,9 +90,9 @@ for key in workloads:
     plt.set_xticklabels(["1x","2x","4x","8x","16x"] , fontsize=8, rotation = 0)
     plt.set_axisbelow(True)
     plt.yaxis.grid(color='lightgray', linestyle='solid')
-    if key=="MR":
+    if key=="CS":
         plt.set_ylabel('Normalized Performance Improvement',fontsize=8)
-    plt.set_ylim((-1, 2))
+    plt.set_ylim((-3, 3.5))
     
     #lg.draw_frame(False)
     

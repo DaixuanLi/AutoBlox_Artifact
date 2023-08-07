@@ -320,7 +320,7 @@ id2name = []
 conf_max = []
 conf_counter = 0
 
-
+confid2name = []  
 
 capacity_control_list = ["Flash_Channel_Count", "Chip_No_Per_Channel", "Die_No_Per_Chip", "Plane_No_Per_Die", "Block_No_Per_Plane","Page_No_Per_Block", "Page_Capacity"]
 capacity_control_id = []
@@ -340,6 +340,7 @@ for key in configuration_choices:
     for key1 in configuration_choices[key]:
         for key2 in configuration_choices[key][key1]:
             if key2 != "Flash_Parameter_Set":
+                confid2name.append(key2)
                 conf_max.append(len(configuration_choices[key][key1][key2]))
                 print(count)
                 print(configuration_choices[key][key1][key2])
@@ -364,6 +365,7 @@ for key in configuration_choices:
                 count += 1
             else:
                 for key3 in configuration_choices[key][key1][key2]:
+                    confid2name.append(key3)
                     conf_max.append(len(configuration_choices[key][key1][key2][key3]))
                     print(count)
                     print(configuration_choices[key][key1][key2][key3])
@@ -480,7 +482,7 @@ crTable = {}
 confs = []
 count = 0
 
-eval_traces = os.listdir("../val_traces")
+eval_traces = os.listdir("../test_traces")
 # tracedb maintain what is the current next trace to execute
 tracedb = {}
 for tracename in eval_traces:
@@ -502,7 +504,7 @@ def run_trace(confid, tracename, input_filename, output_filename):
     tconf = conf2dict(current_max_conf)
     random_state = random.randint(0, 1e6)
     save_conf(tconf, "../log/" + experiment_name + "/"+ experiment_name +"test_conf" + str(confs.index(current_max_conf)) + ".xml", random_state)
-    save_workload(tconf, "../val_traces/" + tracename , "../log/" + experiment_name + "/"+ experiment_name +"test_workload" + str(confid) + "-" + tracename + ".xml", input_filename, output_filename)
+    save_workload(tconf, "../test_traces/" + tracename , "../log/" + experiment_name + "/"+ experiment_name +"test_workload" + str(confid) + "-" + tracename + ".xml", input_filename, output_filename)
     print("Perform: "+"conf " + str(confid) +" -> " + tracename)
     cmd = "timeout 6000 ../MQSim/MQSim -i ../log/"+ experiment_name + "/"+ experiment_name +"test_conf"+ str(confid) + ".xml"+" -w ../log/"+ experiment_name + "/" + experiment_name +"test_workload"+ str(confid) + "-" + tracename + ".xml"
     if (experiment_name + "test_workload"+ str(confid) + "-" + tracename +"_scenario_1.xml") not in os.listdir("../log/" + experiment_name + ""):
@@ -549,6 +551,11 @@ def prepare_and_get_tracenames(cat, confid, cache_size, page_size):
             return all_names
     return all_names
 
+f = open("/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/" + "confid2name.dat", "w+")
+f.write(json.dumps(confid2name))
+f.close()
+
+
 while newconf[0] != -1:
     if not check_conf_ok(newconf):
         # print("abandoned " + str(newconf))
@@ -570,13 +577,13 @@ while newconf[0] != -1:
     cache_size = t_conf["Execution_Parameter_Set"]["Device_Parameter_Set"]["Data_Cache_Capacity"]
     page_size = t_conf["Execution_Parameter_Set"]["Device_Parameter_Set"]["Flash_Parameter_Set"]["Page_Capacity"]
     random_state = random.randint(0, 1e6)
-    save_conf(t_conf, "../xdb/fine_grained_pruning/configurations/"+ str(confid) +".xml", random_state)
+    save_conf(t_conf, "/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/configurations/"+ str(confid) +".xml", random_state)
     # tracenames = prepare_and_get_tracenames(perf_cat, confid, cache_size, page_size)
     # for tracename in tracenames:
     #     result = run_trace(confid, tracename[0], tracename[1], tracename[2])
     newconf = get_next_conf(newconf)
     confs = np.array(confs).tolist()
-    f = open("../xdb/fine_grained_pruning/" + "confs.dat", "w+")
+    f = open("/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/" + "confs.dat", "w+")
     f.write(json.dumps(confs))
     f.close()
     # f = open("../log/" + experiment_name + "/a_" + experiment_name + ".confs", "w+")
@@ -586,6 +593,7 @@ while newconf[0] != -1:
     # f.write(json.dumps(crTable))
     # f.close()
 
+print(confs.index(base_conf))
 # f = open("../log/" + experiment_name + "/a_" + experiment_name + ".crTable", "w+")
 # f.write(json.dumps(crTable))
 # f.close()
