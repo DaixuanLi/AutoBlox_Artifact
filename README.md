@@ -50,7 +50,7 @@ cd src/
 run_pruning.sh -w target_workload
 ```
 
-Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. We will provide several cloud lab nodes to run the pruning in parallel.
+Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. To speed up the experiments, we will provide you several CloudLab nodes to run the pruning experiments in parallel.
 
 After the pruning is finished, please run
 
@@ -60,9 +60,9 @@ python3 fine_grained_pruning.py
 python3 coarsed_pruning.py
 ```
 
-Then,  Figure 3,4 will appear in the reproduced_dat folder. in the paper.
+After that,  Figure 3 and Figure 4 will appear in the reproduced_dat folder.
 
-### Training (We reproduce Table 1, Figure 7, 8 as examples)
+### Training (We reproduce Table 1, Figure 7, and Figure 8 as examples)
 
 To train for a given workload type and with/without tuning order, please use
 
