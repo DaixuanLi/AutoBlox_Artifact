@@ -71,7 +71,7 @@ cd src
 find_best_conf.py target_workload use_tuning_order xdb_directory
 ```
 
-Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage); use_tuning_order has two options (True and False); and xdb_directory is the xdb database used in AutoBlox. Since it will take approximately 12 hour to finish the learning of each workload, we will provide several CloudLab nodes to run the learning in parallel.
+Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage); use_tuning_order has two options (True and False); and xdb_directory is the xdb database used in AutoBlox. Since it will take approximately 18 hour to finish the learning of each workload, we will provide several CloudLab nodes to run the learning in parallel.
 
 After the learning, the experimental results will be placed in the xdb/ folder. 
 
