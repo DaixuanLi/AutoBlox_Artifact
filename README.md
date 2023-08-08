@@ -15,21 +15,21 @@ Please run the following script to install dependencies.
 cloudlab_server_setup_instructions.sh
 ```
 
-Please download the traces from [will be updated soon].
+Please download the traces from this link: [will be updated soon].
 
 ## Running the Experiments
 
-Before running the experiments, we first need to setup the xdb Tables.
+Before running the experiments, you first need to set up the xdb Tables:
 
 ```
 src/setup_xdb.sh
 ```
 
-Then, we can start reproducing the figures.
+Then, you can start reproducing the figures.
 
 ### Workload Clustering (Figure 2)
 
-To reproduce Figure 2 in the paper, please run 
+To reproduce Figure 2 in the paper, please run the following scripts: 
 
 ```
 cd src
@@ -38,12 +38,12 @@ cd ../reproduced_dat
 python3 clustering.py
 ```
 
-The workload clustering figure will appear in reproduced_dat folder. The figure proves that AutoBlox can efficiently identify new workloads.
+The workload clustering figure will appear in reproduced_dat folder. This experiment will demonstrate that AutoBlox can efficiently identify new workloads.
 
 
-### Fine-grained and Coarsed-grained Pruning (Figure 3, 4)
+### Fine-grained and Coarsed-grained Pruning (Figure 3 and Figure 4)
 
-To reproduce Figure 3 and 4,  please run
+To reproduce Figure 3 and Figure 4,  please run
 
 ```
 cd src/
