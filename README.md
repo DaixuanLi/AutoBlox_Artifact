@@ -62,7 +62,7 @@ python3 coarsed_pruning.py
 
 After that,  Figure 3 and Figure 4 will appear in the reproduced_dat folder.
 
-### Training (We reproduce Table 1, Figure 7, and Figure 8 as examples)
+### Training (reproduce Table 1, Figure 7, and Figure 8)
 
 To train for a given workload type and with/without tuning order, please use
 
