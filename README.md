@@ -62,28 +62,28 @@ python3 coarsed_pruning.py
 
 After that,  Figure 3 and Figure 4 will appear in the reproduced_dat folder.
 
-### Training (reproduce Table 1, Figure 7, and Figure 8)
+### Learning (reproduce Table 1, Figure 7, and Figure 8)
 
-To train for a given workload type and with/without tuning order, please use
+Give a type of workloads, we will train the models and learn the SSD parameters with and without tuning order respectively, please use the following scripts: 
 
 ```
 cd src
 find_best_conf.py target_workload use_tuning_order xdb_directory
 ```
 
-for training each workload. Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage), and use_tuning_order has two options (True and False). It takes approximately 12 hour for each workload to finish its training. We will provide several cloud lab nodes to run the training in parallel, and xdb_directory is the shared xdb folder within the cloud lab cluster we provided.
+Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage); use_tuning_order has two options (True and False); and xdb_directory is the xdb database used in AutoBlox. Since it will take approximately 12 hour to finish the learning of each workload, we will provide several CloudLab nodes to run the learning in parallel.
 
-After the training, the log files should be stored in xdb/ folder. 
+After the learning, the experimental results will be placed in the xdb/ folder. 
 
-To reproduce Table 1, we run:
+To reproduce Table 1, please run the following script:
 
 ```
 python3 get_recommended_configurations.py xdb_directory
 ```
 
-Table 1 should appear in reproduced_dat folder.
+Table 1 should show up in the reproduced_dat folder.
 
-To plot the training procedure Figure 7 and Figure 8, run 
+To plot the learning procedure as shown in Figure 7 and Figure 8, pleae run: 
 
 ```
 python3 profile_training.py xdb_directory
