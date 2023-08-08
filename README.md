@@ -4,11 +4,11 @@ Artifact of paper Learning to Drive Software-Deﬁned Solid-State Drives to appe
 
 ## Artifact Introduction
 
-AutoBlox is a learning framework that assist the design of Software-Defined SSDs. Specifically, AutoBlox can efficiently identify optimized configuration for target workloads with given constraints (Host Interface, Capacity, Power).
+AutoBlox is a learning framework to assist the design of Software-Defined SSDs. Specifically, AutoBlox can efficiently identify optimized configurations for target workloads with constraints (Host Interface, Capacity, Power).
 
 ## Dependencies Installation 
 
-AutoBlox require psutil, scikit-learn and numpy packages. 
+AutoBlox requires psutil, scikit-learn, numpy and seaborn packages. 
 
 Please use
 ```
@@ -26,67 +26,74 @@ Before running the experiments, we first need to setup the xdb Tables.
 src/setup_xdb.sh
 ```
 
-Then, we can perform the following functionalities.
+Then, we can start reproducing the figures.
 
-### Workload Clustering
+### Workload Clustering (Figure 2)
 
-To cluster the workload, please run 
-
-```
-src/clustering_motivaltion.py
-src/clustering.py
-```
-The workload clustering result will appear in reproduced_dat folder.
-
-
-### Fine-grained and Coarsed-grained Pruning
-
-To run coarsed_grained and fine_grained pruning, please use 
+To reproduce Figure 2 in the paper, please run 
 
 ```
-src/run_pruning.sh target_workload
+cd src
+python3 clustering_motivaltion.py
+cd ../reproduced_dat
+python3 clustering.py
 ```
 
-It takes approximately 2-4 hour for each workload to finish its pruning. We provide several cloud lab nodes to run the pruning in parallel.
+The workload clustering figure will appear in reproduced_dat folder. The figure proves that AutoBlox can efficiently identify new workloads.
+
+
+### Fine-grained and Coarsed-grained Pruning (Figure 3, 4)
+
+To reproduce Figure 3 and 4,  please run
 
 ```
-reproduced_dat/fine_grained.py
-reproduced_dat/coarsed_pruning.py
+cd src/
+run_pruning.sh -w target_workload
 ```
-Then, can reproduce the Figure 3,4 in the paper.
 
-### Training
+Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. We will provide several cloud lab nodes to run the pruning in parallel.
+
+After the pruning is finished, please run
+
+```
+cd reproduced_dat/
+python3 fine_grained_pruning.py
+python3 coarsed_pruning.py
+```
+
+Then,  Figure 3,4 will appear in the reproduced_dat folder. in the paper.
+
+### Training (We reproduce Table 1, Figure 7, 8 as examples)
 
 To train for a given workload type and with/without tuning order, please use
 
 ```
 cd src
-find_best_conf.py target_workload use_tuning_order
-```
-for training each workload.
-
-for example,
-
-```
-find_best_conf.py YCSB True
+find_best_conf.py target_workload use_tuning_order xdb_directory
 ```
 
-Then, use 
+for training each workload. Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage), and use_tuning_order has two options (True and False). It takes approximately 12 hour for each workload to finish its training. We will provide several cloud lab nodes to run the training in parallel, and xdb_directory is the shared xdb folder within the cloud lab cluster we provided.
+
+After the training, the log files should be stored in xdb/ folder. 
+
+To reproduce Table 1, we run:
 
 ```
-batch_evaluation.py TEST_TRAINING
+python3 get_recommended_configurations.py xdb_directory
 ```
 
-to test the optimized configuration proposed by AutoBlox.
+Table 1 should appear in reproduced_dat folder.
 
-Finally, use 
+To plot the training procedure Figure 7 and Figure 8, run 
 
 ```
-profile_training.sh
+python3 profile_training.py xdb_directory
+cd ../reproduced_dat
+python3 learning_profile.py
+python3 tuning_time.py
 ```
 
-to plot the training procedure figure.
+Figure 7 and 8 should appear in reproduce_dat/ folder. This figure shows that with enforced tuning order, AutoBlox can accelerate the training procedure.
 
-The training for each workload may take less than 12 hours, it is highly recommended to run each target workload separately.
 
 
