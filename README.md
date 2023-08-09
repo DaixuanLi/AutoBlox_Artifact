@@ -81,7 +81,7 @@ To reproduce Table 1, please run the following script:
 python3 get_recommended_configurations.py xdb_directory
 ```
 
-Table 1 should show up in the reproduced_dat folder.
+Table 1 should show up in the reproduced_dat folder. Note that because of the randomness of the ML model, the performance improvement may have less than 10\% deviation.
 
 To plot the learning procedure as shown in Figure 7 and Figure 8, pleae run: 
 
