@@ -15,7 +15,7 @@ Please run the following script to install dependencies.
 cloudlab_server_setup_instructions.sh
 ```
 
-Please download the traces from this link: [will be updated soon].
+Please download the traces from this link: https://drive.google.com/file/d/1zbOD10i-iwJHl9947iMd0N5GwmliDewp/view?usp=sharing.
 
 ## Running the Experiments
 
