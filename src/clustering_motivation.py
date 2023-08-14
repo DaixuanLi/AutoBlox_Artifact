@@ -195,7 +195,7 @@ pca = PCA(n_components=2)
 X_new = pca.fit_transform(X)
 clustering = KMeans(n_clusters=catecount,random_state=0).fit(X_new)
 
-f = open("../log/X_new", "w")
+f = open("../log/X_new.dat", "w")
 f.write(json.dumps(X_new.tolist()))
 
 trace2cat = {}
