@@ -10,7 +10,7 @@ AutoBlox is a learning framework to assist the design of Software-Defined SSDs. 
 
 AutoBlox requires psutil, scikit-learn, numpy and seaborn packages. 
 
-Please run the following script to install dependencies.
+Please run the following script to install dependencies (requires sudo permission).
 ```
 cloudlab_server_setup_instructions.sh
 ```
