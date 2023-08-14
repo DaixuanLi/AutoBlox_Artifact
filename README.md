@@ -42,7 +42,7 @@ cd src/
 ./setup_xdb.sh
 ```
 
-The xdb directory is automatically set to the root directory of AutoBlox. If you wish to build your own xdb, please change the xdb directory in setup_xdb.sh file. The setup on CloudLab is different; please refer to the CloudLab account we provided.
+The xdb directory is automatically set to the root directory of AutoBlox. If you wish to build your own xdb, please change the xdb directory in setup_xdb.sh file. For artifact reviewers, the setup on CloudLab is different; please take a look at the CloudLab account we provided.
 
 Then, you can start reproducing the figures.
 
@@ -68,7 +68,7 @@ export target="target_workload"
 ./run_pruning.sh
 ```
 
-Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. To speed up the experiments, we will provide you several CloudLab nodes to run the pruning experiments in parallel. If you are an artifact reviewer, please contact us to gain access to the CloudLab nodes. Note that you must change the xdb directory in generate_* and get_* files.
+Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. To speed up the experiments, we will provide you several CloudLab nodes to run the pruning experiments in parallel. If you are an artifact reviewer, please get in touch with us to gain access to the CloudLab nodes. Note that you must change the xdb directory in generate_* and get_* files.
 
 After the pruning is finished, please run
 
