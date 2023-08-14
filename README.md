@@ -39,7 +39,7 @@ cd src/
 ./setup_xdb.sh
 ```
 
-The xdb directory is automatically set to the shared directory of AutoBlox. If you wish to build your own xdb, please change the xdb directory in setup_xdb.sh file. 
+The xdb directory is automatically set to the root directory of AutoBlox. If you wish to build your own xdb, please change the xdb directory in setup_xdb.sh file. The setup on cloudlab is different, please refer to the cloudlab accunt we provided.
 
 Then, you can start reproducing the figures.
 
