@@ -12,10 +12,23 @@ AutoBlox requires psutil, scikit-learn, numpy and seaborn packages.
 
 Please run the following script to install dependencies (requires sudo permission).
 ```
-cloudlab_server_setup_instructions.sh
+sudo bash cloudlab_server_setup_instructions.sh
 ```
+## Trace Downloading and Installation
 
 Please download the traces from this link: https://drive.google.com/file/d/1zbOD10i-iwJHl9947iMd0N5GwmliDewp/view?usp=sharing.
+
+unzip the code in AutoBlox_Artifact directory:
+
+```
+unzip autoblox_traces.zip
+```
+
+Then, move all the folders into the root directory:
+
+```
+mv autoblox_traces/* .
+```
 
 ## Running the Experiments
 
