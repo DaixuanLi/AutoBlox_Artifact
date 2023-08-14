@@ -93,7 +93,7 @@ Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsB
 
 After the learning, the experimental results will be placed in the xdb/ folder. 
 
-To reproduce Table 1, please run the following script:
+To reproduce Table 1, please run the following script[will update soon]:
 
 ```
 python3 get_recommended_configurations.py xdb_directory
@@ -104,7 +104,6 @@ Table 1 should show up in the reproduced_dat folder. Note that because of the ra
 To plot the learning procedure as shown in Figure 7 and Figure 8, pleae run: 
 
 ```
-python3 profile_training.py xdb_directory
 cd ../reproduced_dat
 python3 learning_profile.py
 python3 tuning_time.py
