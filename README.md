@@ -48,10 +48,9 @@ Then, you can start reproducing the figures.
 
 ### Workload Clustering (Figure 2)
 
-To reproduce Figure 2 in the paper, please run the following scripts: 
+To reproduce Figure 2 in the paper, please run the following scripts in src/ folder: 
 
 ```
-cd src
 python3 clustering_motivaltion.py
 cd ../reproduced_dat
 python3 clustering.py
@@ -62,10 +61,9 @@ The workload clustering figure will appear in reproduced_dat folder. This experi
 
 ### Fine-grained and Coarsed-grained Pruning (Figure 3 and Figure 4)
 
-To reproduce Figure 3 and Figure 4,  please run
+To reproduce Figure 3 and Figure 4,  please run this in src/ folder:
 
 ```
-cd src/
 run_pruning.sh -w target_workload
 ```
 
