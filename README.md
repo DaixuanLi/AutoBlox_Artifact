@@ -64,10 +64,11 @@ The workload clustering figure will appear in reproduced_dat folder. This experi
 To reproduce Figure 3 and Figure 4,  please run this in src/ folder:
 
 ```
-run_pruning.sh -w target_workload
+export target="target_workload"
+./run_pruning.sh
 ```
 
-Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. To speed up the experiments, we will provide you several CloudLab nodes to run the pruning experiments in parallel.
+Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. To speed up the experiments, we will provide you several CloudLab nodes to run the pruning experiments in parallel. Note that you must change the xdb directory in generate_* and get_* files.
 
 After the pruning is finished, please run
 
