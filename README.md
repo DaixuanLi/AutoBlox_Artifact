@@ -18,7 +18,7 @@ sudo bash cloudlab_server_setup_instructions.sh
 
 Please download the traces from this link: https://drive.google.com/file/d/1zbOD10i-iwJHl9947iMd0N5GwmliDewp/view?usp=sharing.
 
-unzip the code in AutoBlox_Artifact directory:
+unzip the traces in AutoBlox_Artifact directory:
 
 ```
 unzip autoblox_traces.zip
@@ -32,9 +32,12 @@ mv autoblox_traces/* .
 
 ## Running the Experiments
 
-Before running the experiments, you first need to set up the xdb Tables:
+Before running the experiments, you first need to set up the xdb Tables. Download the baseline configuration and the warmup files from this link: https://drive.google.com/file/d/1ha25yZPiIT2U_9i3tI9w9uL5oM3fsKbE/view?usp=drive_link
+
+unzip the configurations into the root directory, and setup xdb with it:
 
 ```
+unzip xdb_base.zip
 cd src/
 ./setup_xdb.sh
 ```
