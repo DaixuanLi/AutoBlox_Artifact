@@ -35,8 +35,11 @@ mv autoblox_traces/* .
 Before running the experiments, you first need to set up the xdb Tables:
 
 ```
-src/setup_xdb.sh
+cd src/
+./setup_xdb.sh
 ```
+
+The xdb directory is automatically set to the shared directory of AutoBlox. If you wish to build your own xdb, please change the xdb directory in setup_xdb.sh file. 
 
 Then, you can start reproducing the figures.
 
