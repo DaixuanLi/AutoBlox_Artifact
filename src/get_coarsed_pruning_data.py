@@ -69,6 +69,7 @@ if __name__ == "__main__":
     # print(parameter_perf)
     # input()
     # coarsed non layout
+    # TODO change this path
     f = open("/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning/" + "confid2name.dat", "r")
     confid2name = json.loads(f.read())
     f.close()
