@@ -17,26 +17,39 @@ from evaluate_target_conf import generate_config_workload, save_to_xdb, get_perf
 # Boolean
 
 # database metadata 
-# TODO configure this in command line
+# configure this in command line
 import sys
 
 print ('Number of arguments:', len(sys.argv), 'arguments.')
 print ('Argument List:', str(sys.argv))
 
-if len(sys.argv) != 3:
-    print("Usage: find_best_conf.py target_name use_order")
+if len(sys.argv) != 4:
+    print("Usage: python3 find_best_conf.py target_workload use_tuning_order xdb_directory")
     exit()
 
-xdb_name = "../xdb/nvme_mlc/"
+target_workload = sys.argv[1]
+
+if target_workload not in ["TPCC", "WebSearch", "CloudStorage", "LiveMapsBackEnd", "AdspayLoad", "MapReduce", "YCSB"]:
+    print(f"workload target {target_workload} not exist.")
+    exit()
+
+use_order = True
+
+if sys.argv[2] == "False":
+    use_order = False
+
+xdb_dire = sys.argv[3]
+xdb_name = xdb_dire + "/nvme_mlc/"
 
 traces_directory = "../training_traces/"
+tuning_order_directory = "../reproduced_dat/tuning_order.dat"
 configuration_directory = xdb_name + "configurations/"
 explored_configuration_file = "confs.json"
 xdbTable_name = "xdbTable.json"
 parallel_lock_file_name = "lock"
 # workload informations
-target_workload = sys.argv[2]
-use_order = True
+
+
 
 
 configuration_choices = {
@@ -302,7 +315,7 @@ alpha = 0.5
 # balance target and non-target workloads
 beta = 0.1
 # balance exploration and exploitation
-var_coeff = 5.0
+var_coeff = 8.0
 
 # some global variables for tuning
 global explored_configurations
@@ -572,8 +585,8 @@ def calculate_grade(xdbTable, confid, workload_cat):
             non_target_performances[0] *= latency_throughput_results[cat][0]
             non_target_performances[1] *= latency_throughput_results[cat][1]
     if non_target_count > 0:
-        non_target_performances[0] = non_target_performances[0] ** non_target_count
-        non_target_performances[1] = non_target_performances[1] ** non_target_count
+        non_target_performances[0] = non_target_performances[0] ** (1 / non_target_count)
+        non_target_performances[1] = non_target_performances[1] ** (1 / non_target_count)
     return [(1 - beta) * target_grade + beta * non_target_grade / non_target_count, target_grade, non_target_performances]
 
 
@@ -640,7 +653,7 @@ def get_grade(xdbTable, confid, workload_cat):
     return grade
 
 # search the database for next search roots
-def get_search_root(workload_cat, xdbTable):
+def get_search_root(workload_cat, xdbTable, max_root=3):
     root_confid = [0, 0, 0]
     best_grade = [0, 0, 0]
     for confid in xdbTable:
@@ -667,7 +680,7 @@ def get_search_root(workload_cat, xdbTable):
         elif grade > best_grade[2]:
             best_grade[2] = grade
             root_confid[2] = int(confid)
-    return root_confid[random.randint(0,2)]
+    return root_confid[random.randint(0,max_root - 1)]
 
 def encode_configuration(conf_vec):
     encoded_vec = []
@@ -755,7 +768,9 @@ def find_optimized_in_group(conf_vecs, gpr, with_order=False, order_list=None):
                 candidates_and_order.append([i, val, grade, val1])
             sorted_candidates = sorted(candidates_and_order, key=lambda x:(- 256 * x[1] - x[3]))
             print(len(sorted_candidates))
-            sorted_candidates = sorted_candidates[0:int(len(sorted_candidates) / 5) + 1]
+            # tuning order - layout is most important
+            sorted_candidates = sorted_candidates[0:int(len(sorted_candidates) / 2) + 1]
+            # we should still preserve the tuning of other parameters
             select = sorted_candidates[random.randint(0, len(sorted_candidates) - 1)]
             print(sorted_candidates.index(select))
             cur_max_grade = select[2]
@@ -893,11 +908,18 @@ if __name__ == "__main__":
     
     # load training order
     
-    tuning_order = [["Flash_Channel_Count", "Chip_No_Per_Channel", "Die_No_Per_Chip", "Plane_No_Per_Die", "Block_No_Per_Plane", "Page_No_Per_Block"], ["Data_Cache_Capacity", "CMT_Capacity"], ["Plane_Allocation_Scheme"]]
-    if target_workload == "WebSearch":
-        tuning_order = [["Data_Cache_Capacity", "CMT_Capacity"], ["Plane_Allocation_Scheme"],["Flash_Channel_Count", "Chip_No_Per_Channel", "Die_No_Per_Chip", "Plane_No_Per_Die", "Block_No_Per_Plane", "Page_No_Per_Block"]]
-    if target_workload == "LivemapsbackEnd":
-        tuning_order = [["Plane_Allocation_Scheme"], ["Data_Cache_Capacity", "CMT_Capacity"], ["Flash_Channel_Count", "Chip_No_Per_Channel", "Die_No_Per_Chip", "Plane_No_Per_Die", "Block_No_Per_Plane", "Page_No_Per_Block"]]
+    # tuning_order = [["Flash_Channel_Count", "Chip_No_Per_Channel", "Die_No_Per_Chip", "Plane_No_Per_Die", "Block_No_Per_Plane", "Page_No_Per_Block"], ["Data_Cache_Capacity", "CMT_Capacity"], ["Plane_Allocation_Scheme"]]
+    # if target_workload == "WebSearch":
+    #     tuning_order = [["Data_Cache_Capacity", "CMT_Capacity"], ["Plane_Allocation_Scheme"],["Flash_Channel_Count", "Chip_No_Per_Channel", "Die_No_Per_Chip", "Plane_No_Per_Die", "Block_No_Per_Plane", "Page_No_Per_Block"]]
+    # if target_workload == "LivemapsbackEnd":
+    #     tuning_order = [["Plane_Allocation_Scheme"], ["Data_Cache_Capacity", "CMT_Capacity"], ["Flash_Channel_Count", "Chip_No_Per_Channel", "Die_No_Per_Chip", "Plane_No_Per_Die", "Block_No_Per_Plane", "Page_No_Per_Block"]]
+    f = open(tuning_order_directory, "r")
+    all_orders = json.loads(f.read())
+    f.close()
+    if target_workload not in all_orders:
+        print("Tuning order not generated! please generate order with pruning data first!")
+        exit()
+    tuning_order = all_orders[target_workload]
     if not use_order:
         skipped_parameters_for_this_exp = ["IO_Queue_Depth", "Queue_Fetch_Size", "Block_Erase_Latency", "Page_Program_Latency_MSB", "Page_Program_Latency_CSB","Page_Program_Latency_LSB", "Page_Read_Latency_MSB", "Page_Read_Latency_CSB", "Page_Read_Latency_LSB"]
         all_tuning_variables = []
@@ -907,25 +929,27 @@ if __name__ == "__main__":
         tuning_order = [all_tuning_variables]
     # predetermined values
     epoch = 0
-    max_grade = 1.0
+    max_grade = 0.0
     max_id = 0
     no_use_threshold = 0.001
     conv_count = 0
     equal_grades = []
     current_tuning_set = 0
     time_file = open(f"Training_{target_workload}.log", "w")
-    
+    new_tuning_order_count = 0
+
     while(1):
         t_start = time.time()
+        new_tuning_order_count += 1
         print(f"Epoch {epoch}:")
-        new_search_root_confid = get_search_root(target_workload, xdbTable)
+        new_search_root_confid = get_search_root(target_workload, xdbTable, min(new_tuning_order_count, 3))
         print(f"new search root {new_search_root_confid}")
         gpr = initialized_gpr(list(range(len(explored_configurations))), target_workload, xdbTable, explored_configurations)
         print(f"GPR initialized!")
         adj_confs = adjacent_configurations(explored_configurations[int(new_search_root_confid)], tuning_order[current_tuning_set])
         maximum_no_use_exploreation_time = 4 * len(tuning_order[current_tuning_set])
-        if maximum_no_use_exploreation_time < 8:
-            maximum_no_use_exploreation_time = 8
+        if maximum_no_use_exploreation_time < 15:
+            maximum_no_use_exploreation_time = 15
         del_confs = []
         for c in adj_confs:
             if c in explored_configurations:
@@ -934,11 +958,19 @@ if __name__ == "__main__":
                         del_confs.append(c)
         for c in del_confs:
             adj_confs.remove(c)
+        del_confs = []
+        for c in adj_confs:
+            if c in explored_configurations:
+                del_confs.append(c)
+        if len(del_confs) < 0.1 * len(adj_confs):
+            for c in del_confs:
+                adj_confs.remove(c)
         print(f"Identified {len(adj_confs)} adjacent configurations")
         if explored_configurations[int(new_search_root_confid)] not in adj_confs:
             adj_confs.append(explored_configurations[int(new_search_root_confid)])
         # new_optimized = find_optimized_in_group(adj_confs, gpr)
-        if use_order and "Flash_Channel_Count" in tuning_order[current_tuning_set]:
+        # here, we hard-code the tuning order of layout, since except for websearch, all the other workloads are most sensitive to layout 
+        if use_order and "Flash_Channel_Count" in tuning_order[current_tuning_set] and target_workload != "WebSearch":
             new_optimized = find_optimized_in_group(adj_confs, gpr, use_order, [[get_index("Flash_Channel_Count"), get_index("Chip_No_Per_Channel")], [get_index('Die_No_Per_Chip'), get_index('Plane_No_Per_Die')]])
         else:
             new_optimized = find_optimized_in_group(adj_confs, gpr)
@@ -950,7 +982,7 @@ if __name__ == "__main__":
         xdbTable, explored_configurations = simulator_validation(explored_configurations.index(new_optimized), target_workload, xdbTable, explored_configurations)
         print(f"Validated Next Candidate Configuration!")
         grade, best_id = print_best_conf(target_workload, explored_configurations)
-        if grade > max_grade * 1.01:
+        if grade > max_grade * 1.01  and max_grade >= 0.1:
             max_grade = grade
             max_id = best_id
             new_eq = []
@@ -962,15 +994,17 @@ if __name__ == "__main__":
         else:
             conv_count += 1
         if grade > max_grade * 0.99 and grade <= max_grade * 1.01:
-            equal_grades.append([grade, confid])
+            equal_grades.append([grade, best_id])
         print(f"Current Max Grade {max_id}, Conv Counter {conv_count}, euqal_cand {len(equal_grades)}, grade range {max_grade * 0.99} - {max_grade * 1.01}")
         print(f"Current Best Configuration Printed.")
-        if conv_count > maximum_no_use_exploreation_time:
+        if conv_count > maximum_no_use_exploreation_time or len(equal_grades) > 20:
             print(f"Convergence Reached.")
             conv_count = 0
             current_tuning_set += 1
             if current_tuning_set >= len(tuning_order):
                 break
+            else:
+                new_tuning_order_count = 0
         t_end = time.time()
         print(f"Duration of Epoch {epoch} is {t_end - t_start}.")
         epoch += 1
