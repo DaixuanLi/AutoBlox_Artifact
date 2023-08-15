@@ -42,7 +42,7 @@ cd src/
 ./setup_xdb.sh
 ```
 
-The xdb directory is automatically set to the root directory of AutoBlox. If you wish to build your own xdb, please change the xdb directory in setup_xdb.sh file. The setup on cloudlab is different, please refer to the cloudlab accunt we provided.
+The xdb directory is automatically set to the root directory of AutoBlox. If you wish to build your own xdb, please change the xdb directory in setup_xdb.sh file. For artifact reviewers, the setup on CloudLab is different; please take a look at the CloudLab account we provided.
 
 Then, you can start reproducing the figures.
 
@@ -68,7 +68,7 @@ export target="target_workload"
 ./run_pruning.sh
 ```
 
-Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. To speed up the experiments, we will provide you several CloudLab nodes to run the pruning experiments in parallel. Note that you must change the xdb directory in generate_* and get_* files.
+Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. To speed up the experiments, we will provide you several CloudLab nodes to run the pruning experiments in parallel. If you are an artifact reviewer, please get in touch with us to gain access to the CloudLab nodes. Note that you must change the xdb directory in generate_* and get_* files.
 
 After the pruning is finished, please run
 
@@ -93,7 +93,7 @@ Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsB
 
 After the learning, the experimental results will be placed in the xdb/ folder. 
 
-To reproduce Table 1, please run the following script:
+To reproduce Table 1, please run the following script[will update soon]:
 
 ```
 python3 get_recommended_configurations.py xdb_directory
@@ -104,7 +104,6 @@ Table 1 should show up in the reproduced_dat folder. Note that because of the ra
 To plot the learning procedure as shown in Figure 7 and Figure 8, pleae run: 
 
 ```
-python3 profile_training.py xdb_directory
 cd ../reproduced_dat
 python3 learning_profile.py
 python3 tuning_time.py
