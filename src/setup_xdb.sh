@@ -33,8 +33,8 @@ cp ../xdb_base/configurations/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
-mkdir nvme_mlc_TPCC
-cd nvme_mlc_TPCC
+mkdir nvme_mlc_TPCC_0
+cd nvme_mlc_TPCC_0
 mkdir configurations
 mkdir dram_trace
 mkdir warmup
@@ -43,8 +43,8 @@ cp ../xdb_base/configurations/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
-mkdir nvme_mlc_YCSB
-cd nvme_mlc_YCSB
+mkdir nvme_mlc_YCSB_0
+cd nvme_mlc_YCSB_0
 mkdir configurations
 mkdir dram_trace
 mkdir warmup
@@ -53,8 +53,8 @@ cp ../xdb_base/configurations/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
-mkdir nvme_mlc_WebSearch
-cd nvme_mlc_WebSearch
+mkdir nvme_mlc_WebSearch_0
+cd nvme_mlc_WebSearch_0
 mkdir configurations
 mkdir dram_trace
 mkdir warmup
@@ -63,8 +63,8 @@ cp ../xdb_base/configurations/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
-mkdir nvme_mlc_LiveMapsBackEnd
-cd nvme_mlc_LiveMapsBackEnd
+mkdir nvme_mlc_LiveMapsBackEnd_0
+cd nvme_mlc_LiveMapsBackEnd_0
 mkdir configurations
 mkdir dram_trace
 mkdir warmup
@@ -73,8 +73,8 @@ cp ../xdb_base/configurations/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
-mkdir nvme_mlc_AdspayLoad
-cd nvme_mlc_AdspayLoad
+mkdir nvme_mlc_AdspayLoad_0
+cd nvme_mlc_AdspayLoad_0
 mkdir configurations
 mkdir dram_trace
 mkdir warmup
@@ -83,8 +83,8 @@ cp ../xdb_base/configurations/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
-mkdir nvme_mlc_CloudStorage
-cd nvme_mlc_CloudStorage
+mkdir nvme_mlc_CloudStorage_0
+cd nvme_mlc_CloudStorage_0
 mkdir configurations
 mkdir dram_trace
 mkdir warmup
@@ -93,8 +93,78 @@ cp ../xdb_base/configurations/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
-mkdir nvme_mlc_MapReduce
-cd nvme_mlc_MapReduce
+mkdir nvme_mlc_MapReduce_0
+cd nvme_mlc_MapReduce_0
+mkdir configurations
+mkdir dram_trace
+mkdir warmup
+mkdir workloads
+cp ../xdb_base/configurations/* configurations
+cp ../xdb_base/warmup/* warmup
+cp ../xdb_base/status_file/* .
+cd ..
+mkdir nvme_mlc_TPCC_1
+cd nvme_mlc_TPCC_1
+mkdir configurations
+mkdir dram_trace
+mkdir warmup
+mkdir workloads
+cp ../xdb_base/configurations/* configurations
+cp ../xdb_base/warmup/* warmup
+cp ../xdb_base/status_file/* .
+cd ..
+mkdir nvme_mlc_YCSB_1
+cd nvme_mlc_YCSB_1
+mkdir configurations
+mkdir dram_trace
+mkdir warmup
+mkdir workloads
+cp ../xdb_base/configurations/* configurations
+cp ../xdb_base/warmup/* warmup
+cp ../xdb_base/status_file/* .
+cd ..
+mkdir nvme_mlc_WebSearch_1
+cd nvme_mlc_WebSearch_1
+mkdir configurations
+mkdir dram_trace
+mkdir warmup
+mkdir workloads
+cp ../xdb_base/configurations/* configurations
+cp ../xdb_base/warmup/* warmup
+cp ../xdb_base/status_file/* .
+cd ..
+mkdir nvme_mlc_LiveMapsBackEnd_1
+cd nvme_mlc_LiveMapsBackEnd_1
+mkdir configurations
+mkdir dram_trace
+mkdir warmup
+mkdir workloads
+cp ../xdb_base/configurations/* configurations
+cp ../xdb_base/warmup/* warmup
+cp ../xdb_base/status_file/* .
+cd ..
+mkdir nvme_mlc_AdspayLoad_1
+cd nvme_mlc_AdspayLoad_1
+mkdir configurations
+mkdir dram_trace
+mkdir warmup
+mkdir workloads
+cp ../xdb_base/configurations/* configurations
+cp ../xdb_base/warmup/* warmup
+cp ../xdb_base/status_file/* .
+cd ..
+mkdir nvme_mlc_CloudStorage_1
+cd nvme_mlc_CloudStorage_1
+mkdir configurations
+mkdir dram_trace
+mkdir warmup
+mkdir workloads
+cp ../xdb_base/configurations/* configurations
+cp ../xdb_base/warmup/* warmup
+cp ../xdb_base/status_file/* .
+cd ..
+mkdir nvme_mlc_MapReduce_1
+cd nvme_mlc_MapReduce_1
 mkdir configurations
 mkdir dram_trace
 mkdir warmup
