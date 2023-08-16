@@ -38,8 +38,11 @@ use_order = True
 if sys.argv[2] == "False":
     use_order = False
 
+order_str = 0
+if use_order:
+    order_str = 1
 xdb_dire = sys.argv[3]
-xdb_name = xdb_dire + "/nvme_mlc/"
+xdb_name = xdb_dire + f"/nvme_mlc_{target_workload}_{order_str}/"
 
 traces_directory = "../training_traces/"
 tuning_order_directory = "../reproduced_dat/tuning_order.dat"
@@ -935,7 +938,7 @@ if __name__ == "__main__":
     conv_count = 0
     equal_grades = []
     current_tuning_set = 0
-    time_file = open(f"Training_{target_workload}.log", "w")
+    time_file = open(xdb_name + f"Training_{target_workload}.log", "w")
     new_tuning_order_count = 0
 
     while(1):
