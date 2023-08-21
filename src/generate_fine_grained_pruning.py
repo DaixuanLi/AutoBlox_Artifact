@@ -551,7 +551,7 @@ def prepare_and_get_tracenames(cat, confid, cache_size, page_size):
             return all_names
     return all_names
 
-f = open("/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/" + "confid2name.dat", "w+")
+f = open("../xdb/fine_grained_pruning/" + "confid2name.dat", "w+")
 f.write(json.dumps(confid2name))
 f.close()
 
@@ -577,13 +577,13 @@ while newconf[0] != -1:
     cache_size = t_conf["Execution_Parameter_Set"]["Device_Parameter_Set"]["Data_Cache_Capacity"]
     page_size = t_conf["Execution_Parameter_Set"]["Device_Parameter_Set"]["Flash_Parameter_Set"]["Page_Capacity"]
     random_state = random.randint(0, 1e6)
-    save_conf(t_conf, "/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/configurations/"+ str(confid) +".xml", random_state)
+    save_conf(t_conf, "../xdb/fine_grained_pruning/configurations/"+ str(confid) +".xml", random_state)
     # tracenames = prepare_and_get_tracenames(perf_cat, confid, cache_size, page_size)
     # for tracename in tracenames:
     #     result = run_trace(confid, tracename[0], tracename[1], tracename[2])
     newconf = get_next_conf(newconf)
     confs = np.array(confs).tolist()
-    f = open("/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/" + "confs.dat", "w+")
+    f = open("../xdb/fine_grained_pruning/" + "confs.dat", "w+")
     f.write(json.dumps(confs))
     f.close()
     # f = open("../log/" + experiment_name + "/a_" + experiment_name + ".confs", "w+")

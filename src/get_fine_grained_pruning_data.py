@@ -30,14 +30,14 @@ if __name__ == "__main__":
 
     
     # coarsed non layout
-    f = open("/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning/" + "confid2name.dat", "r")
+    f = open("../xdb/coarsed_pruning/" + "confid2name.dat", "r")
     confid2name = json.loads(f.read())
     f.close()
 
-    f = open("/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning/" + "confs.dat", "r")
+    f = open("../xdb/coarsed_pruning/" + "confs.dat", "r")
     confs = json.loads(f.read())
     f.close()
-    configuration_directory = "/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning/configurations/"
+    configuration_directory = "../xdb/coarsed_pruning/configurations/"
     normalized_performances = [1]
 
     for i in range(1, len(confs)):
@@ -124,14 +124,14 @@ if __name__ == "__main__":
         parameter_perf[name] = clf.coef_[0].tolist()
     
     # coarsed non layout
-    f = open("/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/" + "confid2name.dat", "r")
+    f = open("../xdb/fine_grained_pruning/" + "confid2name.dat", "r")
     confid2name = json.loads(f.read())
     f.close()
 
-    f = open("/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/" + "confs.dat", "r")
+    f = open("../xdb/fine_grained_pruning/" + "confs.dat", "r")
     confs = json.loads(f.read())
     f.close()
-    configuration_directory = "/mnt/nvme0n1/unzip_cache/xdb/fine_grained_pruning/configurations/"
+    configuration_directory = "../xdb/fine_grained_pruning/configurations/"
     normalized_performances = [1]
 
     for i in range(1, len(confs)):

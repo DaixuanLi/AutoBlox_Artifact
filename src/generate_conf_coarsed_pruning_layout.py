@@ -513,7 +513,7 @@ def prepare_and_get_tracenames(cat, confid, cache_size, page_size):
             return all_names
     return all_names
 
-f = open("/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning_layout/" + "confid2name.dat", "w+")
+f = open("../xdb/coarsed_pruning_layout/" + "confid2name.dat", "w+")
 f.write(json.dumps(confid2name))
 f.close()
 
@@ -532,10 +532,10 @@ while newconf[0] != -1:
     cache_size = t_conf["Execution_Parameter_Set"]["Device_Parameter_Set"]["Data_Cache_Capacity"]
     page_size = t_conf["Execution_Parameter_Set"]["Device_Parameter_Set"]["Flash_Parameter_Set"]["Page_Capacity"]
     random_state = random.randint(0, 1e6)
-    save_conf(tconf, "/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning_layout/configurations/"+ str(confid) +".xml", random_state)
+    save_conf(tconf, "../xdb/coarsed_pruning_layout/configurations/"+ str(confid) +".xml", random_state)
     newconf = get_next_conf(newconf[0], newconf[1])
     confs = np.array(confs).tolist()
-    f = open("/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning_layout/" + "confs.dat", "w+")
+    f = open("../xdb/coarsed_pruning_layout/" + "confs.dat", "w+")
     f.write(json.dumps(confs))
     f.close()
 

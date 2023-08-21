@@ -70,11 +70,11 @@ if __name__ == "__main__":
     # input()
     # coarsed non layout
     # TODO change this path
-    f = open("/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning/" + "confid2name.dat", "r")
+    f = open("../xdb/coarsed_pruning/" + "confid2name.dat", "r")
     confid2name = json.loads(f.read())
     f.close()
 
-    f = open("/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning/" + "confs.dat", "r")
+    f = open("../xdb/coarsed_pruning/" + "confs.dat", "r")
     confs = json.loads(f.read())
     f.close()
     configuration_directory = "/mnt/nvme0n1/unzip_cache/xdb/coarsed_pruning/configurations/"
