@@ -85,12 +85,12 @@ def batch_exec(confdir, tracedir, confs, tracenames):
                     continue
                 else:
                     ongoing_warmup_jobs.append(warmup_jobid)
-                    proc = subprocess.Popen(["timeout 1200 " + next_job[0][0]], cwd=BASE_PATH, shell=True)
+                    proc = subprocess.Popen(["timeout 6000 " + next_job[0][0]], cwd=BASE_PATH, shell=True)
                     procs[proc] = next_job
                     print(f"Running job {proc.pid}: {next_job}")
                     print(next_job[0][0])
             elif len(next_job) == 1:
-                proc = subprocess.Popen(["timeout 1200 " + next_job[0][0]], cwd=BASE_PATH, shell=True)
+                proc = subprocess.Popen(["timeout 6000 " + next_job[0][0]], cwd=BASE_PATH, shell=True)
                 procs[proc] = next_job
                 print(f"Running job {proc.pid}: {next_job}")
                 print(next_job[0][0])
