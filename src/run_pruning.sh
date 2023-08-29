@@ -5,3 +5,4 @@ python3 batch_evaluation.py Coarsed_Layout $target
 python3 batch_evaluation.py Coarsed_Non_Layout $target
 python3 batch_evaluation.py Fine_Grained $target
 python3 get_coarsed_pruning_data.py $target
+python3 get_fine_grained_pruning_data.py $target

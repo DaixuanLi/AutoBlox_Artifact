@@ -103,3 +103,5 @@ for target_workload in target_workloads:
 
     for i in range(len(explored_configurations)):
         a, b, max_grade, max_id, conv_count, equal_grades = show_configuration_detail(i, target_workload, explored_configurations, xdbTable, max_grade, max_id, conv_count, equal_grades)
+
+    
