@@ -1,12 +1,5 @@
 set_capacity = 512 * 1024 * 1024 * 1024
 
-# trange = [0, 4]
-# trange = [5, 9]
-# trange = [10, 14]
-# trange = [15, 19]
-# trange = [20, 24]
-# trange = [25, 30]
-
 import os
 import time
 import numpy as np
