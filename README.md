@@ -51,7 +51,7 @@ Then, you can start reproducing the figures.
 To reproduce Figure 2 in the paper, please run the following scripts in src/ folder: 
 
 ```
-python3 clustering_motivaltion.py
+python3 clustering_motivation.py
 cd ../reproduced_dat
 python3 clustering.py
 ```
