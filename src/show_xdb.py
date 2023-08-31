@@ -11,7 +11,7 @@ if target_table not in os.listdir(xdb_path):
     exit(0)
 
 
-# Read the relavent performance and file discriptors
+# Read the relevant performance and file discriptors
 import json
 crTableFilefp = open(xdb_path + target_table + "/crTable.json", "r")
 crTable = json.loads(crTableFilefp.read())

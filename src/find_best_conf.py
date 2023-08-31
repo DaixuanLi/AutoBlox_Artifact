@@ -593,7 +593,13 @@ def calculate_grade(xdbTable, confid, workload_cat):
     return [(1 - beta) * target_grade + beta * non_target_grade / non_target_count, target_grade, non_target_performances]
 
 
-
+# global variables
+# xdbTable_file
+# conf_file
+# auto_lock()
+# calculate_grade()
+# auto_unlock()
+# 
 def update_xdb(xdbTable, explored_configurations, configuration_updates, xdbTable_updates, workload_cat, table=False, confs=False):
     print("Update XDB!")
     auto_lock()
@@ -603,7 +609,7 @@ def update_xdb(xdbTable, explored_configurations, configuration_updates, xdbTabl
     f = open(conf_file, "r")
     explored_configurations = json.loads(f.read())
     f.close()
-    if table:    
+    if table:
         for confid in xdbTable_updates:
             if "INVALID" == xdbTable_updates[confid]:
                 xdbTable[confid] = "INVALID"
@@ -754,7 +760,7 @@ def find_optimized_in_group(conf_vecs, gpr, with_order=False, order_list=None):
             equal_candidates.append([grade, i])
     if len(equal_candidates) > 1:
         # no order
-        # print("In euqual dicision!")
+        # print("In equal dicision!")
         if not with_order:
             select = equal_candidates[random.randint(0, len(equal_candidates) - 1)]
             cur_max_grade = select[0]

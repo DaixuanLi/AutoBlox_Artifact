@@ -161,8 +161,3 @@ if __name__ == "__main__":
     f.write(json.dumps(current_dat))
     f.close()
     
-
-
-    
-
-
