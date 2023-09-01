@@ -362,50 +362,62 @@ def show_configuration_detail(confid, workload_cat, explored_configurations, xdb
         else:
             print(f"Latency {results[cat][0]} Throughput {results[cat][1]} Performed on {results[cat][2]}")
     print(f"\nTuned Parameters:")
+    # calculate non-target results
+    non_target_res = hyper[2][2]
     for item in changed_parameters_and_value:
         print(f"{item[0]} : {item[1]} -> {item[2]}")
-    return results, changed_parameters_and_value, max_grade, max_id, conv_count, equal_grades
+    return results, changed_parameters_and_value, max_grade, max_id, conv_count, equal_grades, grade, non_target_res
 
 # get 7 recommended configuration list (10 candidates)
 
-# order_str = 0
-# if use_order:
-#     order_str = 1
-# xdb_dire = sys.argv[3]
-xdb_name = xdb_dire + f"/nvme_mlc_{target_workload}_{order_str}/"
-
-
-traces_directory = "../training_traces/"
-configuration_directory = xdb_name + "configurations/"
+# traces_directory = "../training_traces/"
+# configuration_directory = xdb_name + "configurations/"
 explored_configuration_file = "confs.json"
 xdbTable_name = "xdbTable.json"
 parallel_lock_file_name = "lock"
 
-# baseline configuration metadata
-baseline_conf_name = xdb_name + "configurations/0.xml"
-baseline_conf = decode_configuration(baseline_conf_name)
-
-
-
+# target_workload
 recommended_configuration_candidates = {}
 
+# item[0] is the grade to be compared
+def insertion_sort_insert_id(reclist, item):
+    i = 0
+    while i < len(reclist):
+        if reclist[i][0] < item:
+            break
+        i = i + 1
+    return i
+
 for target_workload in target_workloads:
-    
-    xdbTable, explored_configurations = update_xdb(xdbTable, explored_configurations, [baseline_conf], {}, target_workload, True, True)
-    max_grade = 0
-    max_id = 0
-    conv_count = 0
-    equal_grades = []
-
-    for i in range(len(explored_configurations)):
-        a, b, max_grade, max_id, conv_count, equal_grades = show_configuration_detail(i, target_workload, explored_configurations, xdbTable, max_grade, max_id, conv_count, equal_grades)
-
-
-# get exausted configurations and the worst configurations (10 candidates)
-
-
+    for order_str in ["1"]:
+        xdb_name = xdb_dire + f"/nvme_mlc_{target_workload}_{order_str}/"
+        # baseline configuration metadata
+        baseline_conf_name = xdb_name + "configurations/0.xml"
+        baseline_conf = decode_configuration(baseline_conf_name)
+        xdbTable_file = xdb_name + xdbTable_name
+        conf_file = xdb_name + explored_configuration_file
+        xdbTable, explored_configurations = update_xdb(xdbTable, explored_configurations, [baseline_conf], {}, target_workload, True, True)
+        max_grade = 0
+        max_id = 0
+        conv_count = 0
+        equal_grades = []
+        origin_candidates_list = []
+        ignore_candidates_list = []
+        for i in range(len(explored_configurations)):
+            results, changed_parameters_and_value, max_grade, max_id, conv_count, equal_grades, grade, non_target_res = show_configuration_detail(i, target_workload, explored_configurations, xdbTable, max_grade, max_id, conv_count, equal_grades)
+            #TODO may have to change this threshold
+            ignore_candidates_list.insert(insertion_sort_insert_id(ignore_candidates_list, [grade, i, results]), [grade, i, results])
+            if non_target_res[0] < 0.99 or non_target_res[1] < 0.99:
+                continue
+            origin_candidates_list.insert(insertion_sort_insert_id(ignore_candidates_list, [grade, i, results]), [grade, i, results])
+        recommended_configuration_candidates[target_workload] = {}
+        recommended_configuration_candidates[target_workload]["ignore"] = ignore_candidates_list
+        recommended_configuration_candidates[target_workload]["origin"] = origin_candidates_list
 
 # assemble the pre-evaluation table 1
+
+pre_eval_table_file = "../reproduced_dat/pre_eval_table.txt"
+
 
 # evaluate the configurations, check the power constraints
 

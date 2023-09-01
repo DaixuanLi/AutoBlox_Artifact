@@ -14,6 +14,17 @@ Please run the following script to install dependencies (requires sudo permissio
 ```
 sudo bash cloudlab_server_setup_instructions.sh
 ```
+
+## Dependencies Compilation
+
+Please run the following script to compile MQSim.
+
+```
+cd MQSim
+make clean
+make
+```
+
 ## Trace Downloading and Installation
 
 Please download the traces from this link: https://drive.google.com/file/d/1zbOD10i-iwJHl9947iMd0N5GwmliDewp/view?usp=sharing.
