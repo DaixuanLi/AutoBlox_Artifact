@@ -415,14 +415,26 @@ for target_workload in target_workloads:
         recommended_configuration_candidates[target_workload]["origin"] = origin_candidates_list
 
 # assemble the pre-evaluation table 1
+# evaluate the configurations, check the power constraints
+# make recommendations
 
 pre_eval_table_file = "../reproduced_dat/pre_eval_table.txt"
 
-
-# evaluate the configurations, check the power constraints
-
-# make recommendations
-
 # add profiling/learning time
+
+f = open(pre_eval_table_file, "w")
+f.write(" ,")
+for target_workload in target_workloads:
+    f.write(f" {target_workload},")
+f.write("\n")
+for target_workload in target_workloads:
+    f.write(f"{target_workload},")
+    for target_workload1 in target_workloads:
+        f.write(f"{recommended_configuration_candidates[target_workload]["origin"][0][2][target_workload1][0]}/{recommended_configuration_candidates[target_workload]["origin"][0][2][target_workload1][1]},")
+    f.write("\n")
+f.write("\n")
+f.close()
+
+
 
 
