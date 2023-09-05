@@ -25,10 +25,6 @@ cd MQSim
 make clean
 make -j 16
 cd ..
-cd DRAMPower-4.0
-make clean
-make -j 16
-cd ..
 ```
 
 ## Trace Downloading and Installation
