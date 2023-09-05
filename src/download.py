@@ -1,6 +1,6 @@
 import gdown
 
-url = 'https://drive.google.com/uc?export=download&id=1zbOD10i-iwJHl9947iMd0N5GwmliDewp'
+url = 'https://drive.google.com/uc?export=download&id=1O4wzIwWgTmc9Xgt5dgrg6ctH68AoKcTJ'
 output = '../autoblox_traces.zip'
 gdown.download(url, output, quiet=False)
 

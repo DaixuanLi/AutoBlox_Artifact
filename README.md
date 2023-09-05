@@ -29,7 +29,7 @@ cd ..
 
 ## Trace Downloading and Installation
 
-Please download the traces from this link: https://drive.google.com/file/d/1zbOD10i-iwJHl9947iMd0N5GwmliDewp/view?usp=sharing, and download the baseline configuration and the warmup files from this link: https://drive.google.com/file/d/1ha25yZPiIT2U_9i3tI9w9uL5oM3fsKbE/view?usp=drive_link.
+Please download the traces from this link: https://drive.google.com/uc?export=download&id=1O4wzIwWgTmc9Xgt5dgrg6ctH68AoKcTJ, and download the baseline configuration and the warmup files from this link: https://drive.google.com/file/d/1ha25yZPiIT2U_9i3tI9w9uL5oM3fsKbE/view?usp=drive_link.
 
 You can also use the download script:
 
@@ -38,8 +38,6 @@ cd src
 python3 download.py
 cd ..
 ```
-
-Before running the experiments, you first need to set up the xdb Tables. 
 
 unzip the traces in AutoBlox_Artifact directory:
 
@@ -51,17 +49,19 @@ Then, move all the folders into the root directory:
 
 ```
 mv autoblox_traces/* .
+mv test_trace test_traces
+rm -r autoblox_traces/
 ```
 
 ## Running the Experiments
 
 
-First unzip the configuration files into the root directory, and setup xdb with it:
+Before running the experiments, you first need to set up the xdb Tables. First unzip the configuration files into the root directory, and setup xdb with it:
 
 ```
 unzip xdb_base.zip
 cd src/
-./setup_xdb.sh
+bash setup_xdb.sh
 ```
 
 The xdb directory is automatically set to the root directory of AutoBlox. If you wish to build your own xdb, please change the xdb directory in setup_xdb.sh file. For artifact reviewers, the setup on CloudLab is different; please take a look at the CloudLab account we provided.
