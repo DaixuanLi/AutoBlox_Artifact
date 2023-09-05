@@ -63,7 +63,7 @@ for key in labelmapping:
     y1 = [1.0]
     for item in tuning_time[cat]:
         x1.append(item[0] / 3600 + 0.1)
-        y1.append(np.exp(10 * item[1] / 0.3).tolist())
+        y1.append(np.exp(item[1]).tolist())
     x1.append(10.0)
     y1.append(y1[-1])
     x2 = [0]
@@ -71,14 +71,8 @@ for key in labelmapping:
     for item in tuning_time_noorder[cat]:
         if item[0] / 3600 > 9:
             continue
-        if cat == "CS":
-            if np.exp(10 * item[1] / 0.3).tolist() > 2:
-                item[1] = 0.0
-        if cat == "KV":
-            if np.exp(10 * item[1] / 0.3).tolist() > 2:
-                item[1] = 0.0
         x2.append(item[0] / 3600 + 0.1)
-        y2.append(np.exp(10 * item[1] / 0.3).tolist())
+        y2.append(np.exp(item[1]).tolist())
     x2.append(10.0)
     y2.append(y2[-1])
     if key == "RC":

@@ -15,8 +15,8 @@ from evaluate_target_conf import generate_config_workload, save_to_xdb, get_perf
 print ('Number of arguments:', len(sys.argv), 'arguments.')
 print ('Argument List:', str(sys.argv))
 
-if len(sys.argv) != 2:
-    print("Usage: python3 get_recommended_configurations.py xdb_directory")
+if len(sys.argv) != 3:
+    print("Usage: python3 get_recommended_configurations.py xdb_directory target_workload")
     exit()
 
 # extract recommended configurations from XDB
@@ -24,7 +24,7 @@ if len(sys.argv) != 2:
 target_workloads = ["TPCC", "WebSearch", "CloudStorage", "LiveMapsBackEnd", "AdspayLoad", "MapReduce", "YCSB"]
 xdb_dire = sys.argv[1]
 
-
+this_target_workload = sys.argv[2]
 
 # workload informations
 
@@ -389,6 +389,8 @@ def insertion_sort_insert_id(reclist, item):
     return i
 
 for target_workload in target_workloads:
+    if this_target_workload != "ALL" and this_target_workload != target_workload:
+        continue
     for order_str in ["1"]:
         xdb_name = xdb_dire + f"/nvme_mlc_{target_workload}_{order_str}/"
         # baseline configuration metadata
@@ -420,8 +422,6 @@ for target_workload in target_workloads:
 
 pre_eval_table_file = "../reproduced_dat/pre_eval_table.txt"
 
-# add profiling/learning time
-
 f = open(pre_eval_table_file, "w")
 f.write(" ,")
 for target_workload in target_workloads:
@@ -430,11 +430,56 @@ f.write("\n")
 for target_workload in target_workloads:
     f.write(f"{target_workload},")
     for target_workload1 in target_workloads:
+        if target_workload not in recommended_configuration_candidates or target_workload1 not in recommended_configuration_candidates[target_workload]["origin"][0][2]:
+            f.write(f"x,")
+            continue
         f.write(f"{recommended_configuration_candidates[target_workload]["origin"][0][2][target_workload1][0]}/{recommended_configuration_candidates[target_workload]["origin"][0][2][target_workload1][1]},")
     f.write("\n")
 f.write("\n")
 f.close()
 
+# add profiling data
+
+if this_target_workload == "TPCC" or this_target_workload == "ALL":
+    print("generating learning profiling....")
+    for order_str in ["0", "1"]:
+        xdb_name = xdb_dire + f"/nvme_mlc_TPCC_{order_str}/"
+        time_file = open(xdb_name + f"Training_TPCC.log", "r")
+        # first profile configuration file and normalize it
+        explored_configuration_file = "confs.json"
+        conf_file = xdb_name + explored_configuration_file
+        f = open(conf_file, "r")
+        explored_configurations = json.loads(f.read())
+        f.close()
+        
 
 
+# add learning time data
+
+dict_cat_tuningtime_order = {}
+dict_cat_tuningtime_noorder = {}
+for target_workload in target_workloads:
+    if this_target_workload != "ALL" and this_target_workload != target_workload:
+        continue
+    dict_cat_tuningtime_order[target_workload] = []
+    dict_cat_tuningtime_noorder[target_workload] = []
+    for order_str in ["0", "1"]:
+        xdb_name = xdb_dire + f"/nvme_mlc_{target_workload}_{order_str}/"
+        time_file = open(xdb_name + f"Training_{target_workload}.log", "r")
+        tmp = []
+        lines = time_file.readlines()
+        t = 0
+        for l in lines:
+            l = l.split(" ")
+            t += float(l[1]) + float(l[2])
+            tmp.append([t, float(l[4])])
+        if order_str == "0":
+            dict_cat_tuningtime_noorder[target_workload] = tmp
+        else:
+            dict_cat_tuningtime_order[target_workload] = tmp
+
+import json
+f = open("../reproduced_dat/tuning_time.dat", "w")
+f.write(json.dumps([dict_cat_tuningtime_noorder, dict_cat_tuningtime_order]))
+f.close()
 

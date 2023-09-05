@@ -17,7 +17,7 @@ from evaluate_target_conf import generate_config_workload, save_to_xdb, get_perf
 # Boolean
 
 # database metadata 
-# configure this in command line
+# configuration this in command line
 import sys
 
 print ('Number of arguments:', len(sys.argv), 'arguments.')
@@ -792,6 +792,7 @@ def print_best_conf(workload_cat, explored_configurations):
     grades = []
     maxid = 0
     maxval = 0
+    target_improvement = 0
     # check whether hurt the non-target workload
     for i in range(len(explored_configurations)):
         if str(i) not in xdbTable:
@@ -801,13 +802,15 @@ def print_best_conf(workload_cat, explored_configurations):
         grade = get_grade(xdbTable, str(i), workload_cat)
         if float(grade[2][0] < 1.0 or grade[2][1]) < 1.0:
             continue
+        tmp_target = float(grade[1])
         grade = float(grade[0])
         grades.append(grade)
         if grades[-1] > maxval:
             maxval = grades[-1]
             maxid = i
+            target_improvement = tmp_target
     print(f"Current Best configuration {maxid}, with max grade {maxval}")
-    return maxval, maxid
+    return maxval, maxid, target_improvement
 
 
 # workload_cat -> trace names
@@ -990,7 +993,7 @@ if __name__ == "__main__":
         t_mid = time.time()
         xdbTable, explored_configurations = simulator_validation(explored_configurations.index(new_optimized), target_workload, xdbTable, explored_configurations)
         print(f"Validated Next Candidate Configuration!")
-        grade, best_id = print_best_conf(target_workload, explored_configurations)
+        grade, best_id, best_target_improvement = print_best_conf(target_workload, explored_configurations)
         if grade > max_grade * 1.01  and max_grade >= 0.1:
             max_grade = grade
             max_id = best_id
@@ -1017,7 +1020,7 @@ if __name__ == "__main__":
         t_end = time.time()
         print(f"Duration of Epoch {epoch} is {t_end - t_start}.")
         epoch += 1
-        time_file.write(f"{epoch} {t_mid - t_start} {t_end - t_mid} {explored_configurations.index(new_optimized)}\n")
+        time_file.write(f"{epoch} {t_mid - t_start} {t_end - t_mid} {explored_configurations.index(new_optimized)} {best_target_improvement}\n")
         # input()
 
 
