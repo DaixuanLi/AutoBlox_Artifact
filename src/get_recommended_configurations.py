@@ -104,6 +104,7 @@ configuration_choices = {
 
 global tunable_configuration_names
 tunable_configuration_names = []
+tunable_configuration_normalizers = []
 numericals = {} # store the configuration name 
 categorical = {}
 booleans = {}
@@ -113,6 +114,7 @@ for key in configuration_choices:
             if key2 != "Flash_Parameter_Set":
                 if len(configuration_choices[key][key1][key2]) > 1:
                     tunable_configuration_names.append(key2)
+                    tunable_configuration_normalizers.append(len(configuration_choices[key][key1][key2]))
                     if configuration_choices[key][key1][key2][0] == "true" or configuration_choices[key][key1][key2][0] == "false":
                         booleans[key2] = configuration_choices[key][key1][key2]
                     else:
@@ -125,6 +127,7 @@ for key in configuration_choices:
                 for key3 in configuration_choices[key][key1][key2]:
                     if len(configuration_choices[key][key1][key2][key3]) > 1:
                         tunable_configuration_names.append(key3)
+                        tunable_configuration_normalizers.append(len(configuration_choices[key][key1][key2][key3]))
                         if configuration_choices[key][key1][key2][key3][0] == "true" or configuration_choices[key][key1][key2][key3][0] == "false":
                             booleans[key3] = configuration_choices[key][key1][key2][key3]
                         else:
@@ -442,6 +445,7 @@ f.close()
 
 if this_target_workload == "TPCC" or this_target_workload == "ALL":
     print("generating learning profiling....")
+    result = [tunable_configuration_names, []]
     for order_str in ["0", "1"]:
         xdb_name = xdb_dire + f"/nvme_mlc_TPCC_{order_str}/"
         time_file = open(xdb_name + f"Training_TPCC.log", "r")
@@ -451,6 +455,26 @@ if this_target_workload == "TPCC" or this_target_workload == "ALL":
         f = open(conf_file, "r")
         explored_configurations = json.loads(f.read())
         f.close()
+        # normalize
+        normalized_confs = []
+        for conf in explored_configurations:
+            for i in range(len(conf)):
+                conf[i] = float(conf[i]) / float(tunable_configuration_normalizers[i])
+            normalized_confs.append(conf[i])
+        profile = {}
+        for i in range(len(tunable_configuration_names)):
+            tmp = []
+            for j in range(normalized_confs):
+                tmp.append(normalized_confs[i])
+            profile[tunable_configuration_names[i]] = tmp
+        result[1].append(profile)
+    import json
+    f = open("../reproduced_dat/tuning_time.dat", "w")
+    f.write(json.dumps(result))
+    f.close()
+else:
+    print("Not generating learning profile, please use ALL or TPCC as workload to generate learning profile.")
+
         
 
 
