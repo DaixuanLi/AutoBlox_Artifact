@@ -49,7 +49,6 @@ Then, move all the folders into the root directory:
 
 ```
 mv autoblox_traces/* .
-mv test_trace test_traces
 rm -r autoblox_traces/
 ```
 
@@ -87,7 +86,7 @@ To reproduce Figure 3 and Figure 4,  please run this in src/ folder:
 
 ```
 export target="target_workload"
-./run_pruning.sh
+bash run_pruning.sh
 ```
 
 Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, and CloudStorage). It takes approximately 2-4 hour for each workload to finish its pruning. To speed up the experiments, we will provide you several CloudLab nodes to run the pruning experiments in parallel. If you are an artifact reviewer, please get in touch with us to gain access to the CloudLab nodes. Note that you must change the xdb directory in generate_* and get_* files.
