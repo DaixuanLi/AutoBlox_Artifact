@@ -23,7 +23,7 @@ Please run the following script to compile MQSim.
 ```
 cd MQSim
 make clean
-make
+make -j 16
 ```
 
 ## Trace Downloading and Installation
