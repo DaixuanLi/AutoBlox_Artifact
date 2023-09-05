@@ -9,7 +9,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -19,7 +19,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -29,7 +29,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -39,7 +39,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -49,7 +49,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -59,7 +59,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -69,7 +69,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -79,7 +79,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -89,7 +89,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -99,7 +99,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -109,7 +109,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -119,7 +119,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -129,7 +129,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -139,7 +139,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -149,7 +149,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -159,7 +159,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
@@ -169,7 +169,7 @@ mkdir configurations
 mkdir dram_trace
 mkdir warmup
 mkdir workloads
-cp ../xdb_base/configurations/* configurations
+cp ../utils/baseline_nvmemlc/* configurations
 cp ../xdb_base/warmup/* warmup
 cp ../xdb_base/status_file/* .
 cd ..
