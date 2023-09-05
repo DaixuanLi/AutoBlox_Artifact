@@ -11,6 +11,7 @@ AutoBlox is a learning framework to assist the design of Software-Defined SSDs. 
 AutoBlox requires psutil, scikit-learn, numpy and seaborn packages. 
 
 Please run the following script to install dependencies (requires sudo permission).
+
 ```
 sudo bash cloudlab_server_setup_instructions.sh
 ```
@@ -111,15 +112,17 @@ Here target_workload has 7 options (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsB
 
 After the learning, the experimental results will be placed in the xdb/ folder. 
 
-To reproduce Table 1, please run the following script[will update soon]:
+To reproduce Table 1, please run the following script:
 
 ```
-python3 get_recommended_configurations.py xdb_directory
+python3 get_recommended_configurations.py xdb_directory target_workload
 ```
 
-Table 1 should show up in the reproduced_dat folder. Note that because of the randomness of the ML model, the performance improvement may have less than 10\% deviation.
+You can use target_workload = (YCSB, TPCC, AdspayLoad, MapReduce, LiveMapsBackEnd, WebSearch, CloudStorage, and ALL) to generate partial Table for each of the workloads. To generate Figure 8, you need to use TPCC or ALL.
 
-To plot the learning procedure as shown in Figure 7 and Figure 8, pleae run: 
+Table 1 should show up in the reproduced_dat folder. Note that because part of the ML model requries random search, the performance improvement may have less than 10\% deviation.
+
+To plot the learning procedure as shown in Figure 7 and Figure 8, please run: 
 
 ```
 cd ../reproduced_dat
