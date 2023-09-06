@@ -139,7 +139,7 @@ python3 learning_profile.py
 python3 tuning_time.py
 ```
 
-Figure 7 and 8 should appear in reproduce_dat/ folder. This figure shows that with enforced tuning order, AutoBlox can accelerate the training procedure.
+Figure 7 and 8 should appear in reproduce_dat/ folder. This figure shows that with enforced tuning order, AutoBlox can accelerate the training procedure. Note that because of the randomness in the ML model,  the Figure 7, 8 may not look exactly like that in the paper, but it should show that with enforced tuning order, AutoBlox can accelerate and simplify the tuning procedure.
 
 
 
