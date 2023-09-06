@@ -114,7 +114,7 @@ for key in configuration_choices:
             if key2 != "Flash_Parameter_Set":
                 if len(configuration_choices[key][key1][key2]) > 1:
                     tunable_configuration_names.append(key2)
-                    tunable_configuration_normalizers.append(len(configuration_choices[key][key1][key2]))
+                    tunable_configuration_normalizers.append(configuration_choices[key][key1][key2])
                     if configuration_choices[key][key1][key2][0] == "true" or configuration_choices[key][key1][key2][0] == "false":
                         booleans[key2] = configuration_choices[key][key1][key2]
                     else:
@@ -127,7 +127,7 @@ for key in configuration_choices:
                 for key3 in configuration_choices[key][key1][key2]:
                     if len(configuration_choices[key][key1][key2][key3]) > 1:
                         tunable_configuration_names.append(key3)
-                        tunable_configuration_normalizers.append(len(configuration_choices[key][key1][key2][key3]))
+                        tunable_configuration_normalizers.append(configuration_choices[key][key1][key2][key3])
                         if configuration_choices[key][key1][key2][key3][0] == "true" or configuration_choices[key][key1][key2][key3][0] == "false":
                             booleans[key3] = configuration_choices[key][key1][key2][key3]
                         else:
@@ -258,12 +258,15 @@ def calculate_grade(xdbTable, confid, workload_cat):
 # 
 def update_xdb(xdbTable, explored_configurations, configuration_updates, xdbTable_updates, workload_cat, xdbTable_file, conf_file, table=False, confs=False):
     print("Update XDB!")
+    print(f"read {xdbTable_file}")
     f = open(xdbTable_file, "r")
     xdbTable = json.loads(f.read())
     f.close()
+    print(f"read {conf_file}")
     f = open(conf_file, "r")
     explored_configurations = json.loads(f.read())
     f.close()
+    print(f"Updating...")
     if table:
         for confid in xdbTable_updates:
             if "INVALID" == xdbTable_updates[confid]:
@@ -304,10 +307,10 @@ def show_configuration_detail(confid, workload_cat, explored_configurations, xdb
     print(f"Probing detail of configuration {confid} for target workload {workload_cat}")
     if int(confid) == 0:
         print("This is baseline configuration.")
-        return None, None, max_grade, max_id, conv_count, equal_grades
+        return None, None, max_grade, max_id, conv_count, equal_grades, None, None
     if str(confid) not in xdbTable:
         print("This config does not exist")
-        return None, None, max_grade, max_id, conv_count, equal_grades
+        return None, None, max_grade, max_id, conv_count, equal_grades, None, None
     cur_table = xdbTable[str(confid)]
     baseline_table = xdbTable["0"]
     # cat -> [latency improve, throughput improve, [traces performed]]
@@ -386,7 +389,7 @@ recommended_configuration_candidates = {}
 def insertion_sort_insert_id(reclist, item):
     i = 0
     while i < len(reclist):
-        if reclist[i][0] < item:
+        if reclist[i][0] < item[0]:
             break
         i = i + 1
     return i
@@ -401,7 +404,9 @@ for target_workload in target_workloads:
         baseline_conf = decode_configuration(baseline_conf_name)
         xdbTable_file = xdb_name + xdbTable_name
         conf_file = xdb_name + explored_configuration_file
-        xdbTable, explored_configurations = update_xdb(xdbTable, explored_configurations, [baseline_conf], {}, target_workload, True, True)
+        xdbTable = {}
+        explored_configurations = []
+        xdbTable, explored_configurations = update_xdb(xdbTable, explored_configurations, [baseline_conf], {}, target_workload, xdbTable_file, conf_file, True, True)
         max_grade = 0
         max_id = 0
         conv_count = 0
@@ -411,14 +416,18 @@ for target_workload in target_workloads:
         for i in range(len(explored_configurations)):
             results, changed_parameters_and_value, max_grade, max_id, conv_count, equal_grades, grade, non_target_res = show_configuration_detail(i, target_workload, explored_configurations, xdbTable, max_grade, max_id, conv_count, equal_grades)
             #TODO may have to change this threshold
+            if not results:
+                print("This is baseline conf")
+                continue
             ignore_candidates_list.insert(insertion_sort_insert_id(ignore_candidates_list, [grade, i, results]), [grade, i, results])
             if non_target_res[0] < 0.99 or non_target_res[1] < 0.99:
                 continue
-            origin_candidates_list.insert(insertion_sort_insert_id(ignore_candidates_list, [grade, i, results]), [grade, i, results])
+            origin_candidates_list.insert(insertion_sort_insert_id(origin_candidates_list, [grade, i, results]), [grade, i, results])
         recommended_configuration_candidates[target_workload] = {}
         recommended_configuration_candidates[target_workload]["ignore"] = ignore_candidates_list
         recommended_configuration_candidates[target_workload]["origin"] = origin_candidates_list
-
+        # for i in range(len(origin_candidates_list)):
+        #     print(origin_candidates_list[i][0])
 # assemble the pre-evaluation table 1
 # evaluate the configurations, check the power constraints
 # make recommendations
@@ -436,7 +445,9 @@ for target_workload in target_workloads:
         if target_workload not in recommended_configuration_candidates or target_workload1 not in recommended_configuration_candidates[target_workload]["origin"][0][2]:
             f.write(f"x,")
             continue
-        f.write(f"{recommended_configuration_candidates[target_workload]["origin"][0][2][target_workload1][0]}/{recommended_configuration_candidates[target_workload]["origin"][0][2][target_workload1][1]},")
+        itm1 = recommended_configuration_candidates[target_workload]["origin"][0][2][target_workload1][0]
+        itm2 = recommended_configuration_candidates[target_workload]["origin"][0][2][target_workload1][1]
+        f.write(f"{itm1}/{itm2},")
     f.write("\n")
 f.write("\n")
 f.close()
@@ -459,17 +470,17 @@ if this_target_workload == "TPCC" or this_target_workload == "ALL":
         normalized_confs = []
         for conf in explored_configurations:
             for i in range(len(conf)):
-                conf[i] = float(conf[i]) / float(tunable_configuration_normalizers[i])
+                conf[i] = float(tunable_configuration_normalizers[i].index(conf[i])) / float(len(tunable_configuration_normalizers[i]))
             normalized_confs.append(conf[i])
         profile = {}
         for i in range(len(tunable_configuration_names)):
             tmp = []
-            for j in range(normalized_confs):
+            for j in range(len(normalized_confs)):
                 tmp.append(normalized_confs[i])
             profile[tunable_configuration_names[i]] = tmp
         result[1].append(profile)
     import json
-    f = open("../reproduced_dat/tuning_time.dat", "w")
+    f = open("../reproduced_dat/learning_profile.dat", "w")
     f.write(json.dumps(result))
     f.close()
 else:
