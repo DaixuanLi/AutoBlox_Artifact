@@ -457,7 +457,7 @@ f.close()
 if this_target_workload == "TPCC" or this_target_workload == "ALL":
     print("generating learning profiling....")
     result = [tunable_configuration_names, [[[]], [[]]], []]
-    for order_str in ["0", "1"]:
+    for order_str in [ "1", "0"]:
         xdb_name = xdb_dire + f"/nvme_mlc_TPCC_{order_str}/"
         time_file = open(xdb_name + f"Training_TPCC.log", "r")
         times = [0]
@@ -497,7 +497,7 @@ if this_target_workload == "TPCC" or this_target_workload == "ALL":
             for j in range(len(normalized_confs)):
                 tmp.append(normalized_confs[i])
             profile[tunable_configuration_names[i]] = tmp
-        result[1][int(order_str)].append(profile)
+        result[1][1 - int(order_str)].append(profile)
         
         
 
