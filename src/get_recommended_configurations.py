@@ -516,14 +516,21 @@ else:
 
 
 # add learning time data
-
+labelmapping = {"CloudStorage":"CS",
+                "MapReduce":"MR",
+                "TPCC":"DB",
+                "YCSB":"KV",
+                "LiveMapsBackEnd":"LM",
+                "AdspayLoad":"RC",
+                "WebSearch":"WS"}
+    
 dict_cat_tuningtime_order = {}
 dict_cat_tuningtime_noorder = {}
 for target_workload in target_workloads:
     if this_target_workload != "ALL" and this_target_workload != target_workload:
         continue
-    dict_cat_tuningtime_order[target_workload] = []
-    dict_cat_tuningtime_noorder[target_workload] = []
+    dict_cat_tuningtime_order[labelmapping[target_workload]] = []
+    dict_cat_tuningtime_noorder[labelmapping[target_workload]] = []
     for order_str in ["0", "1"]:
         xdb_name = xdb_dire + f"/nvme_mlc_{target_workload}_{order_str}/"
         time_file = open(xdb_name + f"Training_{target_workload}.log", "r")
@@ -535,9 +542,9 @@ for target_workload in target_workloads:
             t += float(l[1]) + float(l[2])
             tmp.append([t, float(l[4])])
         if order_str == "0":
-            dict_cat_tuningtime_noorder[target_workload] = tmp
+            dict_cat_tuningtime_noorder[labelmapping[target_workload]] = tmp
         else:
-            dict_cat_tuningtime_order[target_workload] = tmp
+            dict_cat_tuningtime_order[labelmapping[target_workload]] = tmp
 
 import json
 f = open("../reproduced_dat/tuning_time.dat", "w")
