@@ -56,6 +56,7 @@ for i in range(2):
 #         x = np.arange(0, len(data), 1).tolist()
         conf_length = len(data)
         labeled.append(key1)
+        data = data[0:len(all_time[i])]
         plt.plot(all_time[i], data,key2mkrs[key1]+"-"+key2fmts[key1], label=key1, linewidth=0.8, markersize=2)
         count += 1
     

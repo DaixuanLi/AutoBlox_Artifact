@@ -456,10 +456,24 @@ f.close()
 
 if this_target_workload == "TPCC" or this_target_workload == "ALL":
     print("generating learning profiling....")
-    result = [tunable_configuration_names, []]
+    result = [tunable_configuration_names, [[[]], [[]]], []]
     for order_str in ["0", "1"]:
         xdb_name = xdb_dire + f"/nvme_mlc_TPCC_{order_str}/"
         time_file = open(xdb_name + f"Training_TPCC.log", "r")
+        times = [0]
+        current_time = 0
+        current_conf = 1
+        lines = time_file.readlines()
+        for i in range(len(lines)):
+            line = lines[i].split(" ")
+            current_time += float(line[1]) + float(line[2])
+            if int(line[3]) == current_conf:
+                times.append(current_time / 3600)
+                current_conf += 1
+            elif int(line[3]) > current_conf:
+                print("DEBUG: There is an erroro in the training profile!")
+                exit()
+        result[2].append(times)
         # first profile configuration file and normalize it
         explored_configuration_file = "confs.json"
         conf_file = xdb_name + explored_configuration_file
@@ -470,15 +484,23 @@ if this_target_workload == "TPCC" or this_target_workload == "ALL":
         normalized_confs = []
         for conf in explored_configurations:
             for i in range(len(conf)):
+                # print(conf[i])
+                # print(tunable_configuration_normalizers[i])
                 conf[i] = float(tunable_configuration_normalizers[i].index(conf[i])) / float(len(tunable_configuration_normalizers[i]))
-            normalized_confs.append(conf[i])
+                # print(conf[i])
+            normalized_confs.append(conf)
         profile = {}
         for i in range(len(tunable_configuration_names)):
+            if i >= current_conf:
+                break
             tmp = []
             for j in range(len(normalized_confs)):
                 tmp.append(normalized_confs[i])
             profile[tunable_configuration_names[i]] = tmp
-        result[1].append(profile)
+        result[1][int(order_str)].append(profile)
+        
+        
+
     import json
     f = open("../reproduced_dat/learning_profile.dat", "w")
     f.write(json.dumps(result))
