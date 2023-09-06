@@ -456,7 +456,11 @@ f.close()
 
 if this_target_workload == "TPCC" or this_target_workload == "ALL":
     print("generating learning profiling....")
-    result = [tunable_configuration_names, [[[]], [[]]], []]
+    skipped_parameters_for_this_exp = ["IO_Queue_Depth", "Queue_Fetch_Size", "Block_Erase_Latency", "Page_Program_Latency_MSB", "Page_Program_Latency_CSB","Page_Program_Latency_LSB", "Page_Read_Latency_MSB", "Page_Read_Latency_CSB", "Page_Read_Latency_LSB"]
+    names =  tunable_configuration_names
+    for n in skipped_parameters_for_this_exp:
+        names.remove(n)
+    result = [names, [[[]], [[]]], []]
     for order_str in [ "1", "0"]:
         xdb_name = xdb_dire + f"/nvme_mlc_TPCC_{order_str}/"
         time_file = open(xdb_name + f"Training_TPCC.log", "r")
@@ -491,11 +495,11 @@ if this_target_workload == "TPCC" or this_target_workload == "ALL":
             normalized_confs.append(conf)
         profile = {}
         for i in range(len(tunable_configuration_names)):
-            if i >= current_conf:
-                break
+            if tunable_configuration_names[i] in skipped_parameters_for_this_exp:
+                continue
             tmp = []
             for j in range(len(normalized_confs)):
-                tmp.append(normalized_confs[i])
+                tmp.append(normalized_confs[j][i])
             profile[tunable_configuration_names[i]] = tmp
         result[1][1 - int(order_str)].append(profile)
         
