@@ -428,6 +428,7 @@ for target_workload in target_workloads:
         recommended_configuration_candidates[target_workload]["origin"] = origin_candidates_list
         # for i in range(len(origin_candidates_list)):
         #     print(origin_candidates_list[i][0])
+
 # assemble the pre-evaluation table 1
 # evaluate the configurations, check the power constraints
 # make recommendations
