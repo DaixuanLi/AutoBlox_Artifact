@@ -32,7 +32,7 @@ sns.set(font_scale=0.4)
 xticks = []
 for key in coefficients:
     cat = key
-    if key == "RC":
+    if key == "RC" or len(coefficients.keys()) == 1:
         for key1 in coefficients[cat]:
             pos = 0
             for item in xticks:
@@ -46,6 +46,8 @@ threshold = 1e-3
 data = []
 yticks = []
 for key in keyorder:
+    if key not in coefficients:
+        continue
     yticks.append(labelmapping[key])
     tmp = []
     for key1 in xticks:

@@ -56,6 +56,8 @@ xticks = []
 i = 0
 labeled = []
 for key in workloads:
+    if key not in all_dict:
+        continue
     cat = key
     # data to plot
     plt = PyPlot.subplot(int("17" + str(figcount)))
@@ -80,7 +82,7 @@ for key in workloads:
                 plt.plot(x, datadict[key1],key2mkrs[key1]+"-"+key2fmts[key1])
         count += 1
     # plt.set_title(key, fontsize=8)
-    if key == "CS":
+    if key == "CS" or len(all_dict.keys()) == 1:
         handles, labels = plt.get_legend_handles_labels()
         lg=plt.legend(prop={'size':8}, ncol=4,  borderaxespad=0., edgecolor='black', bbox_to_anchor=(8.9, 2.0))
     # lg.draw_frame(False)
@@ -90,7 +92,7 @@ for key in workloads:
     plt.set_xticklabels(["1x","2x","4x","8x","16x"] , fontsize=8, rotation = 0)
     plt.set_axisbelow(True)
     plt.yaxis.grid(color='lightgray', linestyle='solid')
-    if key=="CS":
+    if key=="CS" or len(all_dict.keys()) == 1:
         plt.set_ylabel('Normalized Performance Improvement',fontsize=8)
     plt.set_ylim((-3, 3.5))
     

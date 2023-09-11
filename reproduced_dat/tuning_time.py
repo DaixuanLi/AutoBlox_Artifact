@@ -14,7 +14,7 @@ labelmapping = { "RC":"Recommendations",
                 "CS":"CloudStorage",
                 "LM":"LiveMaps"}
 
-f = open("./tuning_time_new.dat","r")
+f = open("./tuning_time.dat","r")
 data = json.loads(f.read())
 f.close()
 tuning_time = data[0]
@@ -52,6 +52,8 @@ xticks = []
 i = 0
 labeled = []
 for key in labelmapping:
+    if key not in tuning_time:
+        continue
     cat = key
     # data to plot
     plt = PyPlot.subplot(int("17" + str(figcount)))
@@ -75,9 +77,9 @@ for key in labelmapping:
         y2.append(np.exp(item[1]).tolist())
     x2.append(10.0)
     y2.append(y2[-1])
-    if key == "RC":
-        plt.plot(x1, y1, key2mkrs[key][0]+"-"+key2fmts[key][0], label="With learning order enforced")
-        plt.plot(x2, y2, key2mkrs[key][1]+"-"+key2fmts[key][1], label="Without learning order enforced")
+    if key == "RC" or len(tuning_time.keys()) == 1:
+        plt.plot(x1, y1, key2mkrs[key][0]+"-"+key2fmts[key][0], label="Without learning order enforced")
+        plt.plot(x2, y2, key2mkrs[key][1]+"-"+key2fmts[key][1], label="With learning order enforced")
         handles, labels = plt.get_legend_handles_labels()
         lg=plt.legend(prop={'size':10}, ncol=4, borderaxespad=0., edgecolor='black', bbox_to_anchor=(7.3, 1.4))
 #         lg=plt.legend(prop={'size':8}, ncol=4,  borderaxespad=0., edgecolor='black', bbox_to_anchor=(1.0, 2.0))
@@ -89,7 +91,7 @@ for key in labelmapping:
     plt.set_xlim(0, 10)
     plt.set_ylim(0.9, 1.7)
     plt.yaxis.grid(color='lightgray', linestyle='solid')
-    if key=="RC":
+    if key=="RC" or len(tuning_time.keys()) == 1:
         plt.set_ylabel('Normalized SSD \nPerformance Speedup',fontsize=8)
     plt.set_xlabel('Learning Time (hrs)',fontsize=8)
     plt.set_xticks(plt.get_xticks()[::1])
