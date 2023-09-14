@@ -1023,7 +1023,7 @@ if __name__ == "__main__":
         time_file.write(f"{epoch} {t_mid - t_start} {t_end - t_mid} {explored_configurations.index(new_optimized)} {best_target_improvement}\n")
         # input()
         if epoch > 100:
-            print("outreach convergence limit, finishing...")
+            print("outreach convergence limit, converging...")
             exit()
 
 
