@@ -154,7 +154,7 @@ configuration_base = {
             "Data_Cache_DRAM_tRP" : [14],
             "Address_Mapping" : ["PAGE_LEVEL"], # no hibrid, buggy
             "Ideal_Mapping_Table" : ["false"], # * should be false to be realistic
-            "CMT_Capacity" : [268435456],
+            "CMT_Capacity" : [2097152],
             "CMT_Sharing_Mode" : ["SHARED"],
             "Plane_Allocation_Scheme" : ["CWDP"],
             "Transaction_Scheduling_Policy" : ["PRIORITY_OUT_OF_ORDER"],
@@ -225,7 +225,7 @@ configuration_choices = {
             "Data_Cache_DRAM_tRP" : [14],
             "Address_Mapping" : ["PAGE_LEVEL"], # no hibrid, buggy
             "Ideal_Mapping_Table" : ["false"], # * should be false to be realistic
-            "CMT_Capacity" : [268435456],
+            "CMT_Capacity" : [2097152],
             "CMT_Sharing_Mode" : ["SHARED"],
             "Plane_Allocation_Scheme" : ["CWDP"],
             "Transaction_Scheduling_Policy" : ["PRIORITY_OUT_OF_ORDER"],
