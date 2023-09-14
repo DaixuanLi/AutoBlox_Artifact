@@ -134,7 +134,7 @@ if __name__ == "__main__":
     if target_name in ["LiveMapsBackEnd", "TPCC", "AdspayLoad", "WebSearch", "YCSB", "MapReduce", "CloudStorage"]:
         tracenames = []
         for trace in os.listdir(tracedir):
-            if trace.startswith(target_name + "-"):
+            if trace.startswith(target_name + "-") and not trace.endswith("-0-0-0"):
                 tracenames.append(trace)
     else:
         print("No Matching target_name.")

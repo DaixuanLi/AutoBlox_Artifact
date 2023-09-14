@@ -9,3 +9,7 @@ pip3 install scikit-learn
 pip3 install seaborn
 pip3 install gshell
 pip3 install gdown
+
+bash
+export target="LiveMapsBackEnd"
+bash run_pruning.sh

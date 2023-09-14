@@ -127,7 +127,7 @@ configuration_base = {
             "PCIe_Lane_Bandwidth" : [1.0], # ! 1Gb/s for PCIe 3, 1 times greater every next gen, PCIe 6 released in 2021 
             "PCIe_Lane_Count" : [4], # ! 1, 2, 4, 8, 16x Type
             "SATA_Processing_Delay" : [400000], # ！ consist with ben
-            "Enable_ResponseTime_Logging" : ["true"], # * simulation para
+            "Enable_ResponseTime_Logging" : ["false"], # * simulation para
             "ResponseTime_Logging_Period_Length" : [1000000], # * simulation para
         },
         "Device_Parameter_Set" : {
@@ -199,7 +199,7 @@ configuration_choices = {
             "PCIe_Lane_Bandwidth" : [0.5, 1.0, 2.0, 4.0, 8.0], # ! 1Gb/s for PCIe 3, 1 times greater every next gen, PCIe 6 released in 2021 
             "PCIe_Lane_Count" : [2, 4, 8, 16, 32], # ! 1, 2, 4, 8, 16x Type
             "SATA_Processing_Delay" : [100000, 200000, 400000, 800000, 1600000], # ！ consist with ben
-            "Enable_ResponseTime_Logging" : ["true"], # * simulation para
+            "Enable_ResponseTime_Logging" : ["false"], # * simulation para
             "ResponseTime_Logging_Period_Length" : [1000000,2000000,4000000,8000000,16000000], # * simulation para
         },
         "Device_Parameter_Set" : {
