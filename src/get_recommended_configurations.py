@@ -219,6 +219,7 @@ def calculate_grade(xdbTable, confid, workload_cat):
                 continue
             else:
                 perf_improves.append([baseline_table[cat][trace][0] / cur_table[cat][trace][0], cur_table[cat][trace][1] / baseline_table[cat][trace][1]])
+                break
         if len(perf_improves) == 0:
             results[cat] = -math.inf
             latency_throughput_results[cat] = [-1, -1]
@@ -327,6 +328,7 @@ def show_configuration_detail(confid, workload_cat, explored_configurations, xdb
             else:
                 traces_performed.append(trace)
                 perf_improves.append([baseline_table[cat][trace][0] / cur_table[cat][trace][0], cur_table[cat][trace][1] / baseline_table[cat][trace][1]])
+                break
         if len(perf_improves) == 0:
             continue
         else:

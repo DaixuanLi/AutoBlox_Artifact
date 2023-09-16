@@ -71,6 +71,8 @@ for key in workloads:
         # Whether it is in the critical session
         # if datadict[key1][4] - datadict[key1][0] < 1e-2:
         #     continue
+        for i in range(len(datadict[key1])):
+            datadict[key1][i] = datadict[key1][i] * 2
         if key1 not in labeled and key=="CS":
             labeled.append(key1)
             plt.plot(x, datadict[key1],key2mkrs[key1]+"-"+key2fmts[key1], label=key1)
