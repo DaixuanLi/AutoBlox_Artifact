@@ -765,6 +765,25 @@ def find_optimized_in_group(conf_vecs, gpr, with_order=False, order_list=None):
             select = equal_candidates[random.randint(0, len(equal_candidates) - 1)]
             cur_max_grade = select[0]
             max_id = select[1]
+        elif target_workload == "CloudStorage" or target_workload == "AdspayLoad":
+            candidates_and_order = []
+            for grade, i in equal_candidates:
+                val = 1
+                for j in order_list[0]:
+                    val *= conf_vecs[i][j]
+                val1 = 1
+                for j in order_list[1]:
+                    val1 *= conf_vecs[i][j]
+                candidates_and_order.append([i, val, grade, val1, conf_vecs[i][order_list[1][1]]])
+            sorted_candidates = sorted(candidates_and_order, key=lambda x:(- x[1] - 256 * x[4] - 256 * x[3]))
+            print(len(sorted_candidates))
+            # tuning order - layout is most important
+            sorted_candidates = sorted_candidates[0:int(len(sorted_candidates) / 2) + 1]
+            # we should still preserve the tuning of other parameters
+            select = sorted_candidates[random.randint(0, len(sorted_candidates) - 1)]
+            print(sorted_candidates.index(select))
+            cur_max_grade = select[2]
+            max_id = select[0]
         else:
             candidates_and_order = []
             for grade, i in equal_candidates:
