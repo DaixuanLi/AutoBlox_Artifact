@@ -29,6 +29,7 @@ id_for_priorities = {
     "MEDIUM" : 2,
     "LOW" : 3
 }
+        
 
 # Getting performance metrics from XML result file
 # Input: fname = the filename of performance xml
@@ -691,23 +692,25 @@ if __name__ == "__main__":
     import time
     from evaluate_target_conf import generate_config_workload, save_to_xdb, get_performance_from_xml
 
-    confdir = "/home/daixuan2/learnedssd/aissd/xdb/nvme_mlc/configurations"
-    tracedir = "/home/daixuan2/learnedssd/aissd/val_traces"
+    confdir = "/home/daixuan2/AutoBlox/utils/baseline_nvmemlc_large"
+    tracedir = "/home/daixuan2/AutoBlox/autoblox_traces/test_traces"
     traces = []
-    # traces += [f"YCSB-0-0-{i}" for i in range(1, 4)]
-    # traces += [f"TPCC-{i}-0-0" for i in range(1, 4)]
-    # traces += [f"MapReduce-{i}-0-0" for i in range(1, 3)]
-    # traces += [f"AdspayLoad-0-0-{i}" for i in range(1, 4)]
-    # traces += [f"CloudStorage-{i}-0-0" for i in range(1, 10)]
-    # traces += [f"WebSearch-{i}-0-0" for i in range(1, 3)]
-    # traces += [f"LiveMapsBackEnd-1-0-{i}" for i in range(1, 10)]
-    traces += [f"DevTool-{i}-0-{j}" for i in range(1, 2) for j in range(6, 7)]
-    traces += [f"MSN-0-0-3", f"MSN-1-0-0"]
-    traces += [f"VDI-2-0-0"]
-    traces += [f"TPCCTest-1-0-0"]
-    traces += [f"YCSBTest-0-0-1"]
-    traces += [f"CloudStorageTest-1-0-0", f"CloudStorageTest-2-0-0"]
-    confs = ["CS_same_op_same_CMT.xml", "DB_same_gc_same_CMT_same_op.xml"]
+    traces += [f"YCSB-0-0-{i}" for i in [1]]
+    traces += [f"TPCC-{i}-0-0" for i in [1]]
+    traces += [f"MapReduce-{i}-0-0" for i in [1]]
+    traces += [f"AdspayLoad-0-0-{i}" for i in [2]]
+    traces += [f"CloudStorage-{i}-0-0" for i in [6]]
+    traces += [f"WebSearch-{i}-0-0" for i in [1]]
+    traces += [f"LiveMapsBackEnd-1-0-{i}" for i in [8,9]]
+    # traces += [f"DevTool-{i}-0-{j}" for i in range(1, 2) for j in range(6, 7)]
+    # traces += [f"MSN-0-0-3", f"MSN-1-0-0"]
+    # traces += [f"VDI-2-0-0"]
+    # traces += [f"TPCCTest-1-0-0"]
+    # traces += [f"YCSBTest-0-0-1"]
+    # traces += [f"CloudStorageTest-1-0-0", f"CloudStorageTest-2-0-0"]
+    # confs = ["CS_same_op_same_CMT.xml", "DB_same_gc_same_CMT_same_op.xml"]
+    import os
+    confs = os.listdir(confdir)
 
     confnames = [(confdir + "/" + fname) for fname in confs]
     tracenames = [(tracedir + "/" + fname) for fname in traces]

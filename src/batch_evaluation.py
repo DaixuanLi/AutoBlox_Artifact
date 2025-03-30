@@ -2,7 +2,9 @@ import os
 import time
 from evaluate_target_conf import generate_config_workload, save_to_xdb, get_performance_from_xml, evaluate_config_workload, generate_queuetest_config_workload
 
-# proccesses in progress
+# usage example:  
+# "python3 batch_evaluation.py Verify_AIAgent LiveMapsBackEnd", start all experiments for the given exp_name and target_name
+# "python3 batch_evaluation_results.py Verify_AIAgent ALL"
 
 def batch_exec(confdir, tracedir, confs, tracenames):
     confnames = [(confdir + "/" + fname) for fname in confs]

@@ -20,40 +20,14 @@ from evaluate_target_conf import generate_config_workload, save_to_xdb, get_perf
 # configuration this in command line
 import sys
 
-print ('Number of arguments:', len(sys.argv), 'arguments.')
-print ('Argument List:', str(sys.argv))
-
-if len(sys.argv) != 4:
-    print("Usage: python3 find_best_conf.py target_workload use_tuning_order xdb_directory")
-    exit()
-
-target_workload = sys.argv[1]
-
-if target_workload not in ["TPCC", "WebSearch", "CloudStorage", "LiveMapsBackEnd", "AdspayLoad", "MapReduce", "YCSB"]:
-    print(f"workload target {target_workload} not exist.")
-    exit()
-
-use_order = True
-
-if sys.argv[2] == "False":
-    use_order = False
-
-order_str = 0
-if use_order:
-    order_str = 1
-xdb_dire = sys.argv[3]
-xdb_name = xdb_dire + f"/nvme_mlc_{target_workload}_{order_str}/"
 
 traces_directory = "../training_traces/"
 tuning_order_directory = "../reproduced_dat/tuning_order.dat"
-configuration_directory = xdb_name + "configurations/"
+
 explored_configuration_file = "confs.json"
 xdbTable_name = "xdbTable.json"
 parallel_lock_file_name = "lock"
 # workload informations
-
-
-
 
 configuration_choices = {
     "Execution_Parameter_Set" : {
@@ -288,9 +262,7 @@ def encode_configuration_and_store(conf_vector, conf_name):
     return
 
 
-# baseline configuration metadata
-baseline_conf_name = xdb_name + "configurations/0.xml"
-baseline_conf = decode_configuration(baseline_conf_name)
+
 
 # constraints
 # sum constraints
@@ -332,26 +304,6 @@ xdbTable = {}
 def get_index(name):
     return tunable_configuration_names.index(name)
 
-# Initialize the constraints based on the baseline configurations
-for sumitems in sum_constraints:
-    baseline_sum = 0
-    for itemname in sumitems:
-        baseline_sum += baseline_conf[get_index(itemname)]
-    sum_values.append(baseline_sum)
-
-print(f"Sum Constraints {sum_constraints}")
-print(f"Sum Constraints Values {sum_values}")
-
-# TODO change here to multi constraints
-# Initialize the constraints based on the baseline configurations
-for multiplyitems in multiply_constraints:
-    baseline_multi = 1
-    for itemname in multiplyitems:
-        baseline_multi *= baseline_conf[get_index(itemname)]
-    multiply_values.append(baseline_multi)
-
-print(f"Multiply Constraints {multiply_constraints}")
-print(f"Multiply Constraints Values {multiply_values}")
 
 def find_upper_(num):
     ini = 2
@@ -507,9 +459,7 @@ import math
 import random
 random.seed(20231029)
 
-conf_file = xdb_name + explored_configuration_file
-xdbTable_file = xdb_name + xdbTable_name
-lock_file = xdb_name + parallel_lock_file_name
+
 
 # simple lock for parallel operations on autoDB
 def auto_lock():
@@ -927,10 +877,63 @@ def simulator_validation(confid, workload_cat, xdbTable, explored_configurations
 
 if __name__ == "__main__":
     # load initial value
+    print ('Number of arguments:', len(sys.argv), 'arguments.')
+    print ('Argument List:', str(sys.argv))
+
+    if len(sys.argv) != 4:
+        print("Usage: python3 find_best_conf.py target_workload use_tuning_order xdb_directory")
+        exit()
+
+    target_workload = sys.argv[1]
+
+    if target_workload not in ["TPCC", "WebSearch", "CloudStorage", "LiveMapsBackEnd", "AdspayLoad", "MapReduce", "YCSB"]:
+        print(f"workload target {target_workload} not exist.")
+        exit()
+
+    use_order = True
+
+    if sys.argv[2] == "False":
+        use_order = False
+
+    order_str = 0
+    if use_order:
+        order_str = 1
+    xdb_dire = sys.argv[3]
+    xdb_name = xdb_dire + f"/nvme_mlc_{target_workload}_{order_str}/"
     xdbTable, explored_configurations = update_xdb(xdbTable, explored_configurations, [baseline_conf], {}, target_workload, True, True)
+    configuration_directory = xdb_name + "configurations/"
+
+    # baseline configuration metadata
+    baseline_conf_name = xdb_name + "configurations/0.xml"
+    baseline_conf = decode_configuration(baseline_conf_name)
     
     print(f"Initial config:{explored_configurations} xdbTable: {xdbTable}")
     
+    # Initialize the constraints based on the baseline configurations
+    for sumitems in sum_constraints:
+        baseline_sum = 0
+        for itemname in sumitems:
+            baseline_sum += baseline_conf[get_index(itemname)]
+        sum_values.append(baseline_sum)
+
+    print(f"Sum Constraints {sum_constraints}")
+    print(f"Sum Constraints Values {sum_values}")
+
+    # TODO change here to multi constraints
+    # Initialize the constraints based on the baseline configurations
+    for multiplyitems in multiply_constraints:
+        baseline_multi = 1
+        for itemname in multiplyitems:
+            baseline_multi *= baseline_conf[get_index(itemname)]
+        multiply_values.append(baseline_multi)
+
+    print(f"Multiply Constraints {multiply_constraints}")
+    print(f"Multiply Constraints Values {multiply_values}")
+
+    conf_file = xdb_name + explored_configuration_file
+    xdbTable_file = xdb_name + xdbTable_name
+    lock_file = xdb_name + parallel_lock_file_name
+
     if "0" not in xdbTable:
         print(f"First validate baseline configuration.")
         xdbTable, explored_configurations = simulator_validation(0, target_workload, xdbTable, explored_configurations)
