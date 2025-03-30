@@ -109,7 +109,6 @@ After reproducing Figure 3 and 4, please run the following script to get the tun
 ./get_tuning_order.sh
 ```
 
-
 Give a type of workloads, we will train the models and learn the SSD parameters with and without tuning order respectively, please use the following scripts: 
 
 ```

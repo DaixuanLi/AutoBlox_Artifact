@@ -243,19 +243,21 @@ namespace SSD_Components
 				}
 				break;
 			case Cache_Sharing_Mode::EQUAL_PARTITIONING:
-				throw std::invalid_argument("No implementation is available for cache warmup for this protocol");
 				for (auto &stat : workload_stats) {
 					switch (caching_mode_per_input_stream[stat->Stream_id])
 					{
 						case Caching_Mode::TURNED_OFF:
+							throw std::invalid_argument("No implementation is available for cache warmup for this protocol");
 							break;
 						case Caching_Mode::READ_CACHE:
+							throw std::invalid_argument("No implementation is available for cache warmup for this protocol");
 							//Put items on cache based on the accessed addresses
 							if (stat->Type == Utils::Workload_Type::SYNTHETIC) {
 							} else {
 							}
 							break;
 						case Caching_Mode::WRITE_CACHE:
+							throw std::invalid_argument("No implementation is available for cache warmup for this protocol");
 							//Estimate the request arrival rate
 							//Estimate the request service rate
 							//Estimate the average size of requests in the cache
@@ -280,9 +282,56 @@ namespace SSD_Components
 							break;
 						case Caching_Mode::WRITE_READ_CACHE:
 							//Put items on cache based on the accessed addresses
-							if (stat->Type == Utils::Workload_Type::SYNTHETIC) {
-							} else {
-
+							if (input_filename != "") {
+								std::cout << "Begin Investigating cache input file" << std::endl;
+								std::ifstream status_file;
+								status_file.open(input_filename, std::ios::in);
+								if (!status_file.is_open())
+								{
+									PRINT_ERROR("Not able to open cache status file " << input_filename);
+								}
+								std::string trace_line;
+								std::vector<std::string> current_trace_line;
+								while (std::getline(status_file, trace_line)) {
+									Utils::Helper_Functions::Remove_cr(trace_line);
+									if (trace_line.size() == 0) {
+										continue;
+									}
+									// std::cout << "this line" << trace_line << std::endl;
+									current_trace_line.clear();
+									Utils::Helper_Functions::Tokenize(trace_line, ' ', current_trace_line);
+									// std::cout << "parsed size" << current_trace_line.size() << std::endl;
+									// for (auto it: current_trace_line) {
+									// 	std::cout << it << std::endl;
+									// }
+									if (current_trace_line.size() != 4)
+									{
+										throw std::invalid_argument("Invalid cache input file");
+									}
+									char *pEnd;
+									LPA_type lpa = std::strtoull(current_trace_line[0].c_str(), &pEnd, 0);
+									unsigned long long State_bitmap_of_existing_sectors = std::strtoull(current_trace_line[1].c_str(), &pEnd, 0);
+									data_cache_content_type Content = std::strtoull(current_trace_line[2].c_str(), &pEnd, 0);
+									std::string type = current_trace_line[3].c_str();
+									Cache_Slot_Status tmp = Cache_Slot_Status::EMPTY;
+									if(current_trace_line[3].compare("EMPTY")) {
+										tmp = Cache_Slot_Status::EMPTY;
+									} else if (current_trace_line[3].compare("CLEAN")) {
+										tmp = Cache_Slot_Status::CLEAN;
+									} else if (current_trace_line[3].compare("DIRTY_NO_FLASH_WRITEBACK")) {
+										tmp = Cache_Slot_Status::DIRTY_NO_FLASH_WRITEBACK;
+									} else if (current_trace_line[3].compare("DIRTY_FLASH_WRITEBACK")) {
+										tmp = Cache_Slot_Status::DIRTY_FLASH_WRITEBACK;
+									} else {
+										throw std::invalid_argument("Invalid cache slot type");
+									}
+									per_stream_cache[0]->Insert_warmup_data(0, lpa, Content, 0, State_bitmap_of_existing_sectors, tmp);
+									if (tmp == Cache_Slot_Status::DIRTY_FLASH_WRITEBACK) {
+										bloom_filter[0].insert(lpa);
+									}
+								}
+								status_file.close();
+								std::cout << "End Investigating cache input file" << std::endl;
 							}
 							break;
 					}

@@ -127,6 +127,10 @@ if __name__ == "__main__":
         confdir = "../xdb/fine_grained_pruning/configurations"
         tracedir = "../test_traces"
         confs = [conf for conf in os.listdir(confdir)]
+    elif exp_name == "Verify_AIAgent":
+        confdir = "../xdb/verify_aia/configurations"
+        tracedir = "../autoblox_traces/test_traces"
+        confs = [conf for conf in os.listdir(confdir)]
     else:
         print("No Matching exp_name.")
         exit()
@@ -135,6 +139,11 @@ if __name__ == "__main__":
         tracenames = []
         for trace in os.listdir(tracedir):
             if trace.startswith(target_name + "-") and not trace.endswith("-0-0-0"):
+                tracenames.append(trace)
+    elif target_name == "ALL":
+        tracenames = []
+        for trace in os.listdir(tracedir):
+            if not trace.endswith("-0-0-0"):
                 tracenames.append(trace)
     else:
         print("No Matching target_name.")

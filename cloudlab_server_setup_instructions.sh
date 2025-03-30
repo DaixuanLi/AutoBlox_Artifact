@@ -1,7 +1,7 @@
 # on the server
 
 sudo apt update
-sudo apt install python3-pip
+sudo apt install -y python3-pip
 pip3 install psutil
 
 pip3 install numpy
